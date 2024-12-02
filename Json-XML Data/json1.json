@@ -1,0 +1,88 @@
+{
+    "Users": [
+      {
+        "UserId": 1,
+        "FirstName": "John",
+        "LastName": "Doe",
+        "Email": "john.doe@example.com",
+        "DateCreated": "2023-01-10"
+      },
+      {
+        "UserId": 2,
+        "FirstName": "Jane",
+        "LastName": "Smith",
+        "Email": "jane.smith@example.com",
+        "DateCreated": "2023-02-15"
+      },
+      {
+        "UserId": 3,
+        "FirstName": "Emily",
+        "LastName": "Brown",
+        "Email": "emily.brown@example.com",
+        "DateCreated": "2023-03-20"
+      }
+    ],
+    "Products": [
+      {
+        "ProductId": 1,
+        "Name": "Laptop",
+        "Category": "Electronics",
+        "Price": 1200.50,
+        "Stock": 25
+      },
+      {
+        "ProductId": 2,
+        "Name": "Headphones",
+        "Category": "Electronics",
+        "Price": 150.75,
+        "Stock": 100
+      },
+      {
+        "ProductId": 3,
+        "Name": "Coffee Maker",
+        "Category": "Appliances",
+        "Price": 80.00,
+        "Stock": 50
+      }
+    ],
+    "Orders": [
+      {
+        "OrderId": 1,
+        "UserId": 1,
+        "OrderDate": "2023-11-01",
+        "TotalAmount": 1351.25,
+        "Status": "Completed"
+      },
+      {
+        "OrderId": 2,
+        "UserId": 2,
+        "OrderDate": "2023-11-05",
+        "TotalAmount": 150.75,
+        "Status": "Pending"
+      }
+    ],
+    "OrderDetails": [
+      {
+        "OrderDetailId": 1,
+        "OrderId": 1,
+        "ProductId": 1,
+        "Quantity": 1,
+        "PricePerUnit": 1200.50
+      },
+      {
+        "OrderDetailId": 2,
+        "OrderId": 1,
+        "ProductId": 2,
+        "Quantity": 1,
+        "PricePerUnit": 150.75
+      },
+      {
+        "OrderDetailId": 3,
+        "OrderId": 2,
+        "ProductId": 2,
+        "Quantity": 1,
+        "PricePerUnit": 150.75
+      }
+    ]
+  }
+  

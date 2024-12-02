@@ -1,0 +1,101 @@
+{
+    "Students": [
+      {
+        "StudentId": 1,
+        "Name": "Alice Brown",
+        "Email": "alice.brown@university.com",
+        "EnrollmentDate": "2022-08-20",
+        "Major": "Computer Science",
+        "GPA": 3.8
+      },
+      {
+        "StudentId": 2,
+        "Name": "Bob Smith",
+        "Email": "bob.smith@university.com",
+        "EnrollmentDate": "2023-01-15",
+        "Major": "Mechanical Engineering",
+        "GPA": 3.5
+      },
+      {
+        "StudentId": 3,
+        "Name": "Carol Davis",
+        "Email": "carol.davis@university.com",
+        "EnrollmentDate": "2022-09-10",
+        "Major": "Physics",
+        "GPA": 3.9
+      }
+    ],
+    "Courses": [
+      {
+        "CourseId": 1,
+        "Title": "Data Structures",
+        "Credits": 3,
+        "Department": "Computer Science",
+        "InstructorId": 1
+      },
+      {
+        "CourseId": 2,
+        "Title": "Thermodynamics",
+        "Credits": 4,
+        "Department": "Mechanical Engineering",
+        "InstructorId": 2
+      },
+      {
+        "CourseId": 3,
+        "Title": "Quantum Mechanics",
+        "Credits": 4,
+        "Department": "Physics",
+        "InstructorId": 3
+      }
+    ],
+    "Instructors": [
+      {
+        "InstructorId": 1,
+        "Name": "Dr. Emily Watson",
+        "Email": "emily.watson@university.com",
+        "HireDate": "2018-05-01",
+        "Department": "Computer Science"
+      },
+      {
+        "InstructorId": 2,
+        "Name": "Dr. Henry Lee",
+        "Email": "henry.lee@university.com",
+        "HireDate": "2015-09-15",
+        "Department": "Mechanical Engineering"
+      },
+      {
+        "InstructorId": 3,
+        "Name": "Dr. Olivia Green",
+        "Email": "olivia.green@university.com",
+        "HireDate": "2017-08-20",
+        "Department": "Physics"
+      }
+    ],
+    "Enrollments": [
+      {
+        "EnrollmentId": 1,
+        "StudentId": 1,
+        "CourseId": 1,
+        "Grade": "A"
+      },
+      {
+        "EnrollmentId": 2,
+        "StudentId": 2,
+        "CourseId": 2,
+        "Grade": "B+"
+      },
+      {
+        "EnrollmentId": 3,
+        "StudentId": 3,
+        "CourseId": 3,
+        "Grade": "A-"
+      },
+      {
+        "EnrollmentId": 4,
+        "StudentId": 1,
+        "CourseId": 3,
+        "Grade": "A"
+      }
+    ]
+  }
+  

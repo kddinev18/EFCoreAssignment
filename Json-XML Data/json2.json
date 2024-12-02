@@ -1,0 +1,98 @@
+{
+    "Customers": [
+      {
+        "CustomerId": 1,
+        "Name": "Alice Johnson",
+        "Email": "alice.johnson@example.com",
+        "PhoneNumber": "123-456-7890",
+        "Address": "123 Maple St, Springfield",
+        "DateRegistered": "2023-04-12"
+      },
+      {
+        "CustomerId": 2,
+        "Name": "Bob Williams",
+        "Email": "bob.williams@example.com",
+        "PhoneNumber": "987-654-3210",
+        "Address": "456 Oak St, Springfield",
+        "DateRegistered": "2023-05-25"
+      },
+      {
+        "CustomerId": 3,
+        "Name": "Cathy Brown",
+        "Email": "cathy.brown@example.com",
+        "PhoneNumber": "456-789-1234",
+        "Address": "789 Pine St, Springfield",
+        "DateRegistered": "2023-06-10"
+      }
+    ],
+    "Categories": [
+      {
+        "CategoryId": 1,
+        "Name": "Electronics",
+        "Description": "Devices and gadgets"
+      },
+      {
+        "CategoryId": 2,
+        "Name": "Furniture",
+        "Description": "Home and office furniture"
+      },
+      {
+        "CategoryId": 3,
+        "Name": "Clothing",
+        "Description": "Apparel and accessories"
+      }
+    ],
+    "Products": [
+      {
+        "ProductId": 1,
+        "CategoryId": 1,
+        "Name": "Smartphone",
+        "Price": 699.99,
+        "Stock": 30,
+        "Description": "Latest model smartphone with 128GB storage"
+      },
+      {
+        "ProductId": 2,
+        "CategoryId": 2,
+        "Name": "Office Chair",
+        "Price": 120.00,
+        "Stock": 50,
+        "Description": "Ergonomic office chair with lumbar support"
+      },
+      {
+        "ProductId": 3,
+        "CategoryId": 3,
+        "Name": "Winter Jacket",
+        "Price": 85.50,
+        "Stock": 100,
+        "Description": "Warm and stylish winter jacket"
+      }
+    ],
+    "Sales": [
+      {
+        "SaleId": 1,
+        "CustomerId": 1,
+        "ProductId": 1,
+        "Quantity": 1,
+        "SaleDate": "2023-11-20",
+        "TotalPrice": 699.99
+      },
+      {
+        "SaleId": 2,
+        "CustomerId": 2,
+        "ProductId": 2,
+        "Quantity": 2,
+        "SaleDate": "2023-11-22",
+        "TotalPrice": 240.00
+      },
+      {
+        "SaleId": 3,
+        "CustomerId": 3,
+        "ProductId": 3,
+        "Quantity": 3,
+        "SaleDate": "2023-11-25",
+        "TotalPrice": 256.50
+      }
+    ]
+  }
+  

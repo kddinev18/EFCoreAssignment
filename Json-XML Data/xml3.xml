@@ -1,0 +1,91 @@
+<Database>
+  <Authors>
+    <Author>
+      <AuthorId>1</AuthorId>
+      <Name>Mary Shelley</Name>
+      <Country>United Kingdom</Country>
+      <BirthYear>1797</BirthYear>
+      <DeathYear>1851</DeathYear>
+    </Author>
+    <Author>
+      <AuthorId>2</AuthorId>
+      <Name>Jules Verne</Name>
+      <Country>France</Country>
+      <BirthYear>1828</BirthYear>
+      <DeathYear>1905</DeathYear>
+    </Author>
+    <Author>
+      <AuthorId>3</AuthorId>
+      <Name>H.G. Wells</Name>
+      <Country>United Kingdom</Country>
+      <BirthYear>1866</BirthYear>
+      <DeathYear>1946</DeathYear>
+    </Author>
+  </Authors>
+  <Books>
+    <Book>
+      <BookId>1</BookId>
+      <Title>Frankenstein</Title>
+      <Genre>Horror</Genre>
+      <PublicationYear>1818</PublicationYear>
+      <AuthorId>1</AuthorId>
+      <PublisherId>1</PublisherId>
+    </Book>
+    <Book>
+      <BookId>2</BookId>
+      <Title>Twenty Thousand Leagues Under the Sea</Title>
+      <Genre>Science Fiction</Genre>
+      <PublicationYear>1870</PublicationYear>
+      <AuthorId>2</AuthorId>
+      <PublisherId>2</PublisherId>
+    </Book>
+    <Book>
+      <BookId>3</BookId>
+      <Title>The War of the Worlds</Title>
+      <Genre>Science Fiction</Genre>
+      <PublicationYear>1898</PublicationYear>
+      <AuthorId>3</AuthorId>
+      <PublisherId>2</PublisherId>
+    </Book>
+  </Books>
+  <Publishers>
+    <Publisher>
+      <PublisherId>1</PublisherId>
+      <Name>Classic Publishing</Name>
+      <Location>London</Location>
+      <FoundedYear>1800</FoundedYear>
+    </Publisher>
+    <Publisher>
+      <PublisherId>2</PublisherId>
+      <Name>Science Press</Name>
+      <Location>Paris</Location>
+      <FoundedYear>1850</FoundedYear>
+    </Publisher>
+  </Publishers>
+  <Reviews>
+    <Review>
+      <ReviewId>1</ReviewId>
+      <BookId>1</BookId>
+      <ReviewerName>Emily Brown</ReviewerName>
+      <Rating>5</Rating>
+      <Comments>A masterpiece of gothic literature!</Comments>
+      <ReviewDate>2023-11-15</ReviewDate>
+    </Review>
+    <Review>
+      <ReviewId>2</ReviewId>
+      <BookId>2</BookId>
+      <ReviewerName>John Smith</ReviewerName>
+      <Rating>4</Rating>
+      <Comments>A visionary work of science fiction.</Comments>
+      <ReviewDate>2023-11-18</ReviewDate>
+    </Review>
+    <Review>
+      <ReviewId>3</ReviewId>
+      <BookId>3</BookId>
+      <ReviewerName>Susan Green</ReviewerName>
+      <Rating>5</Rating>
+      <Comments>Incredibly imaginative and thrilling.</Comments>
+      <ReviewDate>2023-11-20</ReviewDate>
+    </Review>
+  </Reviews>
+</Database>

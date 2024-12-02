@@ -1,0 +1,46 @@
+<Database>
+  <Students>
+    <Student>
+      <StudentId>1</StudentId>
+      <Name>Emily Carter</Name>
+      <Email>emily.carter@university.com</Email>
+      <EnrollmentDate>2022-08-20</EnrollmentDate>
+      <Major>Mathematics</Major>
+    </Student>
+    <Student>
+      <StudentId>2</StudentId>
+      <Name>Daniel Parker</Name>
+      <Email>daniel.parker@university.com</Email>
+      <EnrollmentDate>2023-01-15</EnrollmentDate>
+      <Major>Computer Science</Major>
+    </Student>
+  </Students>
+  <Courses>
+    <Course>
+      <CourseId>1</CourseId>
+      <Title>Linear Algebra</Title>
+      <Credits>3</Credits>
+      <Instructor>Dr. Alice Green</Instructor>
+    </Course>
+    <Course>
+      <CourseId>2</CourseId>
+      <Title>Data Science</Title>
+      <Credits>4</Credits>
+      <Instructor>Dr. Brian White</Instructor>
+    </Course>
+  </Courses>
+  <Enrollments>
+    <Enrollment>
+      <EnrollmentId>1</EnrollmentId>
+      <StudentId>1</StudentId>
+      <CourseId>1</CourseId>
+      <Grade>A</Grade>
+    </Enrollment>
+    <Enrollment>
+      <EnrollmentId>2</EnrollmentId>
+      <StudentId>2</StudentId>
+      <CourseId>2</CourseId>
+      <Grade>B+</Grade>
+    </Enrollment>
+  </Enrollments>
+</Database>

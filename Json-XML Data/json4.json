@@ -1,0 +1,95 @@
+{
+    "Employees": [
+      {
+        "EmployeeId": 1,
+        "Name": "John Carter",
+        "Position": "Software Engineer",
+        "HireDate": "2020-05-01",
+        "Salary": 75000,
+        "DepartmentId": 1
+      },
+      {
+        "EmployeeId": 2,
+        "Name": "Lisa Monroe",
+        "Position": "Project Manager",
+        "HireDate": "2018-03-15",
+        "Salary": 85000,
+        "DepartmentId": 2
+      },
+      {
+        "EmployeeId": 3,
+        "Name": "Michael Wright",
+        "Position": "Data Analyst",
+        "HireDate": "2021-09-30",
+        "Salary": 70000,
+        "DepartmentId": 1
+      }
+    ],
+    "Departments": [
+      {
+        "DepartmentId": 1,
+        "Name": "IT",
+        "Location": "Building A",
+        "Budget": 500000
+      },
+      {
+        "DepartmentId": 2,
+        "Name": "HR",
+        "Location": "Building B",
+        "Budget": 150000
+      },
+      {
+        "DepartmentId": 3,
+        "Name": "Marketing",
+        "Location": "Building C",
+        "Budget": 300000
+      }
+    ],
+    "Projects": [
+      {
+        "ProjectId": 1,
+        "Name": "CRM Development",
+        "StartDate": "2023-01-10",
+        "EndDate": "2023-12-31",
+        "Budget": 200000
+      },
+      {
+        "ProjectId": 2,
+        "Name": "Employee Portal",
+        "StartDate": "2023-06-01",
+        "EndDate": "2023-11-30",
+        "Budget": 100000
+      },
+      {
+        "ProjectId": 3,
+        "Name": "Data Migration",
+        "StartDate": "2023-08-15",
+        "EndDate": "2024-03-01",
+        "Budget": 150000
+      }
+    ],
+    "Assignments": [
+      {
+        "AssignmentId": 1,
+        "EmployeeId": 1,
+        "ProjectId": 1,
+        "HoursWorked": 120,
+        "Role": "Developer"
+      },
+      {
+        "AssignmentId": 2,
+        "EmployeeId": 2,
+        "ProjectId": 2,
+        "HoursWorked": 50,
+        "Role": "Project Manager"
+      },
+      {
+        "AssignmentId": 3,
+        "EmployeeId": 3,
+        "ProjectId": 3,
+        "HoursWorked": 90,
+        "Role": "Data Analyst"
+      }
+    ]
+  }
+  
