@@ -9,6 +9,7 @@ builder.AddDbContext();
 builder.AddServices();
 builder.AddSwagger();
 builder.AddCors();
+builder.AddAutoMapper();
 
 var app = builder.Build();
 

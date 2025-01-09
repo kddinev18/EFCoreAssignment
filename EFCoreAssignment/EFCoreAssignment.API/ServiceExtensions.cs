@@ -47,4 +47,9 @@ public static class ServiceExtensions
             });
         });
     }
+    
+    public static void AddAutoMapper(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddAutoMapper(typeof(Mappings));
+    }
 }
