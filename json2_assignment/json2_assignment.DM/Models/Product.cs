@@ -1,12 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace json2_assignment.DAL.Models;
+namespace json2_assignment.DM.Models;
 
-public class Product
+public class Product : IBaseModel
 {
     [Key]
-    public int ProductId { get; set; }
+    public int Id { get; set; }
 
     [ForeignKey("Category")]
     public int CategoryId { get; set; }

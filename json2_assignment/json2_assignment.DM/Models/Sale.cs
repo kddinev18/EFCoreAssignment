@@ -1,12 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace json2_assignment.DAL.Models;
+namespace json2_assignment.DM.Models;
 
-public class Sale
+public class Sale : IBaseModel
 {
     [Key]
-    public int SaleId { get; set; }
+    public int Id { get; set; }
 
     [ForeignKey("Customer")]
     public int CustomerId { get; set; }

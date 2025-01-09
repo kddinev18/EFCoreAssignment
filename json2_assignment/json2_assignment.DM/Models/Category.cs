@@ -1,12 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace json2_assignment.DAL.Models;
+namespace json2_assignment.DM.Models;
 
-public class Category
+public class Category : IBaseModel
 {
     [Key]
-    public int CategoryId { get; set; }
+    public int Id { get; set; }
 
     [Required]
     [StringLength(100)]
