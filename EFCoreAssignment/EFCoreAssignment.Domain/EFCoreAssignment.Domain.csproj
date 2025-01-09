@@ -6,4 +6,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Filters\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EFCoreAssignment.DataAccess\EFCoreAssignment.DataAccess.csproj" />
+  </ItemGroup>
+
 </Project>
