@@ -7,6 +7,7 @@ namespace Assignment.DataAccess.Models
     public class Sale
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int SaleId { get; set; }
 
         [ForeignKey(nameof(Customer))]

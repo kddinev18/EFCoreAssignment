@@ -6,6 +6,7 @@ namespace Assignment.DataAccess.Models
     public class Product
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ProductId { get; set; }
 
         [ForeignKey(nameof(Category))]
@@ -22,6 +23,7 @@ namespace Assignment.DataAccess.Models
         [Required]
         public int Stock { get; set; }
 
+        [Required]
         [StringLength(500)]
         public string? Description { get; set; }
 
