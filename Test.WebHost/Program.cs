@@ -55,8 +55,8 @@ public class Program
             options.SwaggerDoc("v1", new OpenApiInfo
             {
                 Version = "v1",
-                Title = "Testrber App API",
-                Description = "An API for Testrber App",
+                Title = "Test App API",
+                Description = "An API for Test App",
             });
 
         });
