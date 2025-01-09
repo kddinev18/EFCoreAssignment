@@ -15,10 +15,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\EFCoreAssignment.Domain\EFCoreAssignment.Domain.csproj" />
       <ProjectReference Include="..\EFCoreAssignment.Infrastructure\EFCoreAssignment.Infrastructure.csproj" />
     </ItemGroup>

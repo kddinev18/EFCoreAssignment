@@ -10,7 +10,7 @@ public class SaleService : ISaleService
 {
     private readonly SaleRepository _saleRepository;
 
-    SaleService(SaleRepository saleRepository)
+    public SaleService(SaleRepository saleRepository)
     {
         _saleRepository = saleRepository;
     }

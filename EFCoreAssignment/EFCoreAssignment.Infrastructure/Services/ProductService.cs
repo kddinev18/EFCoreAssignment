@@ -10,7 +10,7 @@ public class ProductService : IProductService
 {
     private readonly ProductRepository _productRepository;
 
-    ProductService(ProductRepository productRepository)
+    public ProductService(ProductRepository productRepository)
     {
         _productRepository = productRepository;
     }

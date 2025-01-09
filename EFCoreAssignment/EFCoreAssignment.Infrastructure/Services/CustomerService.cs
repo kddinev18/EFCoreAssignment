@@ -10,7 +10,7 @@ public class CustomerService : ICustomerService
 {
     private readonly CustomerRepository _customerRepository;
 
-    CustomerService(CustomerRepository customerRepository)
+    public CustomerService(CustomerRepository customerRepository)
     {
         _customerRepository = customerRepository;
     }

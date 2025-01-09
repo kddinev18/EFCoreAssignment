@@ -10,7 +10,7 @@ public class CategoryService : ICategoryService
 {
     private readonly CategoryRepository _categoryRepository;
 
-    CategoryService(CategoryRepository categoryRepository)
+    public CategoryService(CategoryRepository categoryRepository)
     {
         _categoryRepository = categoryRepository;
     }
