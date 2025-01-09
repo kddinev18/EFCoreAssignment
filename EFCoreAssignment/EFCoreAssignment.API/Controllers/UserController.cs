@@ -14,7 +14,7 @@ namespace EFCoreAssignment.API.Controllers
         private readonly IBaseService _baseService = baseService;
         
         [HttpGet(Name = "GetUserById")]
-        public async Task<IActionResult> GetUserById([FromQuery] int id)
+        public async Task<IActionResult> GetById([FromQuery] int id)
         {
             User ?user = await _baseService.GetById<User>(id);
             if (user == null)
@@ -25,14 +25,14 @@ namespace EFCoreAssignment.API.Controllers
         }
 
         [HttpGet(Name = "GetAllUsers")]
-        public async Task<IActionResult> GetAllUsers()
+        public async Task<IActionResult> GetAll()
         {
             IEnumerable<User> users = await _baseService.GetAll<User>();
             return Ok(users);
         }
 
         [HttpPost(Name = "CreateUser")]
-        public async Task<IActionResult> CreateUser([FromBody] UserDTO model)
+        public async Task<IActionResult> Create([FromBody] UserDTO model)
         {
             User user = _mapper.Map<User>(model);
             if (await _baseService.Create(user))
@@ -43,7 +43,7 @@ namespace EFCoreAssignment.API.Controllers
         }
 
         [HttpPut(Name = "UpdateUser")]
-        public async Task<IActionResult> UpdateUser([FromQuery] int id, [FromBody] UserDTO model)
+        public async Task<IActionResult> Update([FromQuery] int id, [FromBody] UserDTO model)
         {
             User? user = await _baseService.GetById<User>(id);
             if (user == null)
@@ -59,7 +59,7 @@ namespace EFCoreAssignment.API.Controllers
         }
 
         [HttpDelete(Name = "DeleteUser")]
-        public async Task<IActionResult> DeleteUser([FromQuery] int id)
+        public async Task<IActionResult> Delete([FromQuery] int id)
         {
             User? user = await _baseService.GetById<User>(id);
             if (user == null)
