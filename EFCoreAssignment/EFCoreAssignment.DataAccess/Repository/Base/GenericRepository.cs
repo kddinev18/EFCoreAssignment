@@ -46,10 +46,8 @@ public abstract class GenericRepository<T> : IGenericRepository<T> where T : cla
         if (entity is null) return false;
 
         _dbSet.Remove(entity);
-        DeleteAdditionalDependancies();
         return _context.SaveChanges() > 0;
     }
     
     protected abstract void UpdateEntity(T oldEntity, T newEntity);
-    protected abstract void DeleteAdditionalDependancies();
 }
