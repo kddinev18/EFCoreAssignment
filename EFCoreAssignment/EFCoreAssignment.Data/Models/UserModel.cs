@@ -1,6 +1,7 @@
 ﻿using EFCoreAssignment.Data.Interfaces;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace EFCoreAssignment.Data.Models
 {
@@ -22,7 +23,8 @@ namespace EFCoreAssignment.Data.Models
         [Required]
         public DateOnly DateCreatead { get; set; } = DateOnly.FromDateTime(DateTime.Now);
 
-        public ICollection<Order> Orders { get; set; } = null!;
+        [JsonIgnore]
+        public virtual ICollection<Order> Orders { get; set; } = null!;
 
     }
 }

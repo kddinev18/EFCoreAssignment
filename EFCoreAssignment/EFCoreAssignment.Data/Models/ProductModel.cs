@@ -1,6 +1,7 @@
 ﻿using EFCoreAssignment.Data.Interfaces;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace EFCoreAssignment.Data.Models
 {
@@ -23,7 +24,8 @@ namespace EFCoreAssignment.Data.Models
         [Required]
         public int Stock { get; set; }
 
-        public ICollection<OrderDetail> OrderDetails { get; set; } = null!;
+        [JsonIgnore]
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; } = null!;
 
     }
 }
