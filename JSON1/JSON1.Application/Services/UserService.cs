@@ -6,6 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Mapster;
+using JSON1.Application.Mapping.GetDtos;
+using JSON1.Application.Mapping.PutDtos;
 
 namespace JSON1.Application.Services
 {
@@ -18,29 +21,48 @@ namespace JSON1.Application.Services
             _userRepository = userRepository;
         }
 
-        public async Task<IEnumerable<User>> GetAllUsersAsync()
+        public async Task<IEnumerable<UserGetDto>> GetAllUsersAsync()
         {
-            return await _userRepository.GetAllAsync();
+            var users = await _userRepository.GetAllAsync();
+            return users.Adapt<IEnumerable<UserGetDto>>();
         }
 
-        public async Task<User> GetUserByIdAsync(int id)
+        public async Task<UserGetDto> GetUserByIdAsync(int id)
         {
-            return await _userRepository.GetByIdAsync(id);
+            var user = await _userRepository.GetByIdAsync(id);
+            if (user == null)
+                return null;
+
+            return user.Adapt<UserGetDto>();
         }
 
-        public async Task<User> GetUserByEmailAsync(string email)
+        public async Task<UserGetDto> GetUserByEmailAsync(string email)
         {
-            return await _userRepository.GetByEmailAsync(email);
+            var user = await _userRepository.GetByEmailAsync(email);
+            if (user == null)
+                return null;
+
+            return user.Adapt<UserGetDto>();
         }
 
-        public async Task AddUserAsync(User user)
+        public async Task<UserGetDto> AddUserAsync(UserPutDto userDto)
         {
+            var user = userDto.Adapt<User>();
             await _userRepository.AddAsync(user);
+
+            return user.Adapt<UserGetDto>();
         }
 
-        public async Task UpdateUserAsync(User user)
+
+        public async Task<UserGetDto> UpdateUserAsync(int id, UserPutDto userDto)
         {
-            await _userRepository.UpdateAsync(user);
+            var existingUser = await _userRepository.GetByIdAsync(id);
+            if (existingUser == null) return null;
+
+            existingUser = userDto.Adapt(existingUser);
+            await _userRepository.UpdateAsync(existingUser);
+
+            return existingUser.Adapt<UserGetDto>();
         }
 
         public async Task DeleteUserAsync(int id)
@@ -48,5 +70,4 @@ namespace JSON1.Application.Services
             await _userRepository.DeleteAsync(id);
         }
     }
-
 }

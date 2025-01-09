@@ -1,7 +1,8 @@
-﻿using JSON1.Domain.Entities;
-using Microsoft.AspNetCore.Http;
+﻿using JSON1.Application.Services.Persistance;
+using JSON1.Application.Mapping.GetDtos;
+using JSON1.Application.Mapping.PutDtos;
+using JSON1.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
-using JSON1.Application.Services.Persistance;
 
 namespace JSON1.Presentation.Controllers
 {
@@ -32,18 +33,24 @@ namespace JSON1.Presentation.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddUser(User user)
+        public async Task<IActionResult> AddUser([FromBody] UserPutDto userDto)
         {
-            await _userService.AddUserAsync(user);
-            return CreatedAtAction(nameof(GetUserById), new { id = user.UserId }, user);
+            var createdUser = await _userService.AddUserAsync(userDto);
+
+            return CreatedAtAction(nameof(GetUserById), new { id = createdUser.Id }, createdUser);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(int id, User user)
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] UserPutDto userDto)
         {
-            if (id != user.UserId) return BadRequest();
-            await _userService.UpdateUserAsync(user);
-            return NoContent();
+            var updatedUser = await _userService.UpdateUserAsync(id, userDto);
+
+            if (updatedUser == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(updatedUser);
         }
 
         [HttpDelete("{id}")]
@@ -53,5 +60,4 @@ namespace JSON1.Presentation.Controllers
             return NoContent();
         }
     }
-
 }

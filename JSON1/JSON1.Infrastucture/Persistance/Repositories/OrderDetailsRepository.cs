@@ -14,7 +14,7 @@ namespace JSON1.Infrastucture.Persistance.Repositories
 
         public async Task<IEnumerable<OrderDetails>> GetByOrderIdAsync(int orderId)
         {
-            return await _dbSet.Where(od => od.OrderId == orderId).ToListAsync();
+            return await _dbSet.Where(od => od.OrderId == orderId).ToListAsync();   
         }
     }
 }
