@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFCoreAssignment.DataAccess
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFCoreAssignment.BusinessLogic", "EFCoreAssignment.BusinessLogic\EFCoreAssignment.BusinessLogic.csproj", "{CA699D55-428D-4CB5-826B-5B9D584D0E69}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFCoreAssignment.Domain", "EFCoreAssignment.Domain\EFCoreAssignment.Domain.csproj", "{0579D598-EB6A-4BED-8228-0F7BAAE2FC2F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{CA699D55-428D-4CB5-826B-5B9D584D0E69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA699D55-428D-4CB5-826B-5B9D584D0E69}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA699D55-428D-4CB5-826B-5B9D584D0E69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0579D598-EB6A-4BED-8228-0F7BAAE2FC2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0579D598-EB6A-4BED-8228-0F7BAAE2FC2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0579D598-EB6A-4BED-8228-0F7BAAE2FC2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0579D598-EB6A-4BED-8228-0F7BAAE2FC2F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
