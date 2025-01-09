@@ -25,4 +25,10 @@
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\JsonTRI.Application\JsonTRI.Application.csproj" />
+      <ProjectReference Include="..\JsonTRI.Domain\JsonTRI.Domain.csproj" />
+      <ProjectReference Include="..\JsonTRI.Infrastucture\JsonTRI.Infrastucture.csproj" />
+    </ItemGroup>
+
 </Project>
