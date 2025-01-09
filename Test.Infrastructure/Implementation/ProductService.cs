@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Test.Data.Data;
-using Test.Data.Models;
+using Test.Domain.Models.Product;
 using Test.Infrastructure.Contracts;
 
 namespace Test.Infrastructure.Implementation;
@@ -16,36 +17,88 @@ public class ProductService : IProductService
         _context = context;
     }
 
-    public async Task<IEnumerable<Product>> GetAllProductsAsync()
+    public async Task<IEnumerable<ProductVM>> GetAllProductsAsync()
     {
-        return await _context.Products.Include(p => p.Category).ToListAsync();
+        return await _context.Products
+            .Include(p => p.Category)
+            .Select(product => new ProductVM
+            {
+                ProductId = product.ProductId,
+                Name = product.Name,
+                Price = product.Price,
+                Stock = product.Stock,
+                Description = product.Description,
+                CategoryName = product.Category.Name
+            })
+            .ToListAsync();
     }
 
-    public async Task<Product> GetProductByIdAsync(int id)
+    public async Task<ProductVM> GetProductByIdAsync(int id)
     {
-        return await _context.Products.Include(p => p.Category).FirstOrDefaultAsync(p => p.ProductId == id);
+        var product = await _context.Products
+            .Include(p => p.Category)
+            .FirstOrDefaultAsync(p => p.ProductId == id);
+
+        if (product == null) return null;
+
+        return new ProductVM
+        {
+            ProductId = product.ProductId,
+            Name = product.Name,
+            Price = product.Price,
+            Stock = product.Stock,
+            Description = product.Description,
+            CategoryName = product.Category.Name
+        };
     }
 
-    public async Task<Product> CreateProductAsync(Product product)
+    public async Task<ProductVM> CreateProductAsync(ProductIM productInputModel)
     {
+        var product = new Test.Data.Models.Product
+        {
+            Name = productInputModel.Name,
+            Price = productInputModel.Price,
+            Stock = productInputModel.Stock,
+            Description = productInputModel.Description,
+            CategoryId = productInputModel.CategoryId
+        };
+
         _context.Products.Add(product);
         await _context.SaveChangesAsync();
-        return product;
+
+        return new ProductVM
+        {
+            ProductId = product.ProductId,
+            Name = product.Name,
+            Price = product.Price,
+            Stock = product.Stock,
+            Description = product.Description,
+            CategoryName = product.Category.Name
+        };
     }
 
-    public async Task<Product> UpdateProductAsync(int id, Product product)
+    public async Task<ProductVM> UpdateProductAsync(int id, ProductUM productUpdateModel)
     {
         var existingProduct = await _context.Products.FindAsync(id);
         if (existingProduct == null) return null;
 
-        existingProduct.Name = product.Name;
-        existingProduct.Price = product.Price;
-        existingProduct.Stock = product.Stock;
-        existingProduct.Description = product.Description;
-        existingProduct.CategoryId = product.CategoryId;
+        existingProduct.Name = productUpdateModel.Name;
+        existingProduct.Price = productUpdateModel.Price;
+        existingProduct.Stock = productUpdateModel.Stock;
+        existingProduct.Description = productUpdateModel.Description;
+        existingProduct.CategoryId = productUpdateModel.CategoryId;
 
         await _context.SaveChangesAsync();
-        return existingProduct;
+
+        return new ProductVM
+        {
+            ProductId = existingProduct.ProductId,
+            Name = existingProduct.Name,
+            Price = existingProduct.Price,
+            Stock = existingProduct.Stock,
+            Description = existingProduct.Description,
+            CategoryName = existingProduct.Category.Name
+        };
     }
 
     public async Task<bool> DeleteProductAsync(int id)

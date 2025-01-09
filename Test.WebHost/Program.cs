@@ -2,10 +2,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Test.WebHost.Models;
 using Test.Data.Data;
-using Test.Data.Models;
 using Test.Infrastructure;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,15 +12,10 @@ using Microsoft.OpenApi.Models;
 
 namespace Test.WebHost;
 
-/// <summary>
-/// Entry point for the Testrber App API application.
-/// </summary>
+
 public class Program
 {
-    /// <summary>
-    /// Main method to initialize and run the application.
-    /// </summary>
-    /// <param name="args">Command-line arguments.</param>
+    
     public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
@@ -75,8 +68,6 @@ public class Program
 
         // Add services and middleware
         builder.Services.AddAuthorization();
-        builder.Services.AddIdentityApiEndpoints<User>()
-            .AddEntityFrameworkStores<ApplicationDbContext>();
 
         builder.Services.AddCors(options =>
         {
@@ -106,9 +97,7 @@ public class Program
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Testrber app");
             });
         }
-
-        // Map Identity API endpoints
-        app.MapIdentityApi<User>();
+        
 
         app.UseHttpsRedirection();
 

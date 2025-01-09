@@ -3,32 +3,34 @@
 // </copyright>
 
 using AutoMapper;
-// using Test.Domain.Models.Reservation;
-using Test.Domain.Models.User;
 using Test.Data.Models;
+using Test.Domain.Models.Category;
+using Test.Domain.Models.Customer;
+using Test.Domain.Models.Product;
+using Test.Domain.Models.Sale;
 
 namespace Test.WebHost.Models;
 
-/// <summary>
-/// Defines mapping profiles for AutoMapper to handle object-to-object mappings.
-/// </summary>
+
 public class MappingProfile : Profile
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="MappingProfile"/> class and defines mappings.
-    /// </summary>
+   
     public MappingProfile()
     {
-        // Map from User to UserVM
-        this.CreateMap<User, UserVM>();
+        this.CreateMap<Category, CategoryVM>();
+        this.CreateMap<CategoryIM, Category>();
+        this.CreateMap<CategoryUM, Category>();
 
-        // Map from UserUM to User
-        this.CreateMap<UserUM, User>();
+        this.CreateMap<Customer, CustomerVM>();
+        this.CreateMap<CustomerIM, Customer>();
+        this.CreateMap<CustomerUM, Customer>();
 
-        // Map from ReservationIM to Reservation
-        // this.CreateMap<ReservationIM, Reservation>();
+        this.CreateMap<Product, ProductVM>();
+        this.CreateMap<ProductIM, Product>();
+        this.CreateMap<ProductUM, Product>();
 
-        // Map from Reservation to ReservationVM
-        // this.CreateMap<Reservation, ReservationVM>();
+        this.CreateMap<Sale, SaleVM>();
+        this.CreateMap<SaleIM, Sale>();
+        this.CreateMap<SaleUM, Sale>();
     }
 }

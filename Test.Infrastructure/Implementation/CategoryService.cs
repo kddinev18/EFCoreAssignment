@@ -1,57 +1,93 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Test.Domain.Models.Category;
 using Test.Data.Data;
-using Test.Data.Models;
+using Test.Domain.Models.Customer;
 using Test.Infrastructure.Contracts;
 
-namespace Test.Infrastructure.Implementation;
-
-public class CategoryService : ICategoryService
+namespace Test.Infrastructure.Implementation
 {
-    private readonly ApplicationDbContext _context;
-
-    public CategoryService(ApplicationDbContext context)
+    public class CategoryService : ICategoryService
     {
-        _context = context;
-    }
+        private readonly ApplicationDbContext _context;
 
-    public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
-    {
-        return await _context.Categories.ToListAsync();
-    }
+        public CategoryService(ApplicationDbContext context)
+        {
+            _context = context;
+        }
 
-    public async Task<Category> GetCategoryByIdAsync(int id)
-    {
-        return await _context.Categories.FindAsync(id);
-    }
+        public async Task<IEnumerable<CategoryVM>> GetAllCategoriesAsync()
+        {
+            return await _context.Categories
+                .Select(category => new CategoryVM
+                {
+                    CategoryId = category.CategoryId,
+                    Name = category.Name,
+                    Description = category.Description
+                })
+                .ToListAsync();
+        }
 
-    public async Task<Category> CreateCategoryAsync(Category category)
-    {
-        _context.Categories.Add(category);
-        await _context.SaveChangesAsync();
-        return category;
-    }
+        public async Task<CategoryVM> GetCategoryByIdAsync(int id)
+        {
+            var category = await _context.Categories.FindAsync(id);
+            if (category == null) return null;
 
-    public async Task<Category> UpdateCategoryAsync(int id, Category category)
-    {
-        var existingCategory = await _context.Categories.FindAsync(id);
-        if (existingCategory == null) return null;
+            return new CategoryVM
+            {
+                CategoryId = category.CategoryId,
+                Name = category.Name,
+                Description = category.Description
+            };
+        }
 
-        existingCategory.Name = category.Name;
-        existingCategory.Description = category.Description;
+        public async Task<CategoryVM> CreateCategoryAsync(CategoryIM categoryInputModel)
+        {
+            var category = new Test.Data.Models.Category
+            {
+                Name = categoryInputModel.Name,
+                Description = categoryInputModel.Description
+            };
 
-        await _context.SaveChangesAsync();
-        return existingCategory;
-    }
+            _context.Categories.Add(category);
+            await _context.SaveChangesAsync();
 
-    public async Task<bool> DeleteCategoryAsync(int id)
-    {
-        var category = await _context.Categories.FindAsync(id);
-        if (category == null) return false;
+            return new CategoryVM
+            {
+                CategoryId = category.CategoryId,
+                Name = category.Name,
+                Description = category.Description
+            };
+        }
 
-        _context.Categories.Remove(category);
-        await _context.SaveChangesAsync();
-        return true;
+        public async Task<CategoryVM> UpdateCategoryAsync(int id, CategoryUM categoryUpdateModel)
+        {
+            var existingCategory = await _context.Categories.FindAsync(id);
+            if (existingCategory == null) return null;
+
+            existingCategory.Name = categoryUpdateModel.Name;
+            existingCategory.Description = categoryUpdateModel.Description;
+
+            await _context.SaveChangesAsync();
+
+            return new CategoryVM
+            {
+                CategoryId = existingCategory.CategoryId,
+                Name = existingCategory.Name,
+                Description = existingCategory.Description
+            };
+        }
+
+        public async Task<bool> DeleteCategoryAsync(int id)
+        {
+            var category = await _context.Categories.FindAsync(id);
+            if (category == null) return false;
+
+            _context.Categories.Remove(category);
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }

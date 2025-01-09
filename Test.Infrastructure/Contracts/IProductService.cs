@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Test.Data.Models;
+using Test.Domain.Models.Product;
 
 namespace Test.Infrastructure.Contracts;
 
 public interface IProductService
 {
-    Task<IEnumerable<Product>> GetAllProductsAsync();
-    Task<Product> GetProductByIdAsync(int id);
-    Task<Product> CreateProductAsync(Product product);
-    Task<Product> UpdateProductAsync(int id, Product product);
+    Task<IEnumerable<ProductVM>> GetAllProductsAsync();
+    Task<ProductVM> GetProductByIdAsync(int id);
+    Task<ProductVM> CreateProductAsync(ProductIM productInputModel);
+    Task<ProductVM> UpdateProductAsync(int id, ProductUM productUpdateModel);
     Task<bool> DeleteProductAsync(int id);
 }

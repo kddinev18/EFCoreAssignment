@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Test.Data.Data;
-using Test.Data.Models;
+using Test.Domain.Models.Sale;
 using Test.Infrastructure.Contracts;
 
 namespace Test.Infrastructure.Implementation;
@@ -16,42 +17,84 @@ public class SaleService : ISaleService
         _context = context;
     }
 
-    public async Task<IEnumerable<Sale>> GetAllSalesAsync()
+    public async Task<IEnumerable<SaleVM>> GetAllSalesAsync()
     {
         return await _context.Sales
-            .Include(s => s.Customer)
             .Include(s => s.Product)
+            .Include(s => s.Customer)
+            .Select(sale => new SaleVM
+            {
+                SaleId = sale.SaleId,
+                ProductName = sale.Product.Name,
+                CustomerName = sale.Customer.Name,
+                SaleDate = sale.SaleDate,
+                Quantity = sale.Quantity,
+            })
             .ToListAsync();
     }
 
-    public async Task<Sale> GetSaleByIdAsync(int id)
+    public async Task<SaleVM> GetSaleByIdAsync(int id)
     {
-        return await _context.Sales
-            .Include(s => s.Customer)
+        var sale = await _context.Sales
             .Include(s => s.Product)
+            .Include(s => s.Customer)
             .FirstOrDefaultAsync(s => s.SaleId == id);
+
+        if (sale == null) return null;
+
+        return new SaleVM
+        {
+            SaleId = sale.SaleId,
+            ProductName = sale.Product.Name,
+            CustomerName = sale.Customer.Name,
+            SaleDate = sale.SaleDate,
+            Quantity = sale.Quantity,
+        };
     }
 
-    public async Task<Sale> CreateSaleAsync(Sale sale)
+    public async Task<SaleVM> CreateSaleAsync(SaleIM saleInputModel)
     {
+        var sale = new Test.Data.Models.Sale
+        {
+            ProductId = saleInputModel.ProductId,
+            CustomerId = saleInputModel.CustomerId,
+            SaleDate = saleInputModel.SaleDate,
+            Quantity = saleInputModel.Quantity,
+        };
+
         _context.Sales.Add(sale);
         await _context.SaveChangesAsync();
-        return sale;
+
+        return new SaleVM
+        {
+            SaleId = sale.SaleId,
+            ProductName = sale.Product.Name,
+            CustomerName = sale.Customer.Name,
+            SaleDate = sale.SaleDate,
+            Quantity = sale.Quantity,
+        };
     }
 
-    public async Task<Sale> UpdateSaleAsync(int id, Sale sale)
+    public async Task<SaleVM> UpdateSaleAsync(int id, SaleUM saleUpdateModel)
     {
         var existingSale = await _context.Sales.FindAsync(id);
         if (existingSale == null) return null;
 
-        existingSale.CustomerId = sale.CustomerId;
-        existingSale.ProductId = sale.ProductId;
-        existingSale.Quantity = sale.Quantity;
-        existingSale.SaleDate = sale.SaleDate;
-        existingSale.TotalPrice = sale.TotalPrice;
+        existingSale.ProductId = saleUpdateModel.ProductId;
+        existingSale.CustomerId = saleUpdateModel.CustomerId;
+        existingSale.SaleDate = saleUpdateModel.SaleDate;
+        existingSale.Quantity = saleUpdateModel.Quantity;
 
         await _context.SaveChangesAsync();
-        return existingSale;
+
+        return new SaleVM
+        {
+            SaleId = existingSale.SaleId,
+            ProductName = existingSale.Product.Name,
+            CustomerName = existingSale.Customer.Name,
+            SaleDate = existingSale.SaleDate,
+            Quantity = existingSale.Quantity,
+        };
     }
 
     public async Task<bool> DeleteSaleAsync(int id)

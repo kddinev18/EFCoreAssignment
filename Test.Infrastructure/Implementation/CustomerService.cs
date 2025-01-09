@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Test.Data.Data;
 using Test.Data.Models;
+using Test.Domain.Models.Customer;
 using Test.Infrastructure.Contracts;
 
 namespace Test.Infrastructure.Implementation;
@@ -16,36 +18,82 @@ public class CustomerService : ICustomerService
         _context = context;
     }
 
-    public async Task<IEnumerable<Customer>> GetAllCustomersAsync()
+    public async Task<IEnumerable<CustomerVM>> GetAllCustomersAsync()
     {
-        return await _context.Customers.ToListAsync();
+        return await _context.Customers
+            .Select(customer => new CustomerVM
+            {
+                CustomerId = customer.CustomerId,
+                Name = customer.Name,
+                Email = customer.Email,
+                PhoneNumber = customer.PhoneNumber,
+                Address = customer.Address,
+                DateRegistered = customer.DateRegistered
+            })
+            .ToListAsync();
     }
 
-    public async Task<Customer> GetCustomerByIdAsync(int id)
+    public async Task<CustomerVM> GetCustomerByIdAsync(int id)
     {
-        return await _context.Customers.FindAsync(id);
+        var customer = await _context.Customers.FindAsync(id);
+        if (customer == null) return null;
+
+        return new CustomerVM
+        {
+            CustomerId = customer.CustomerId,
+            Name = customer.Name,
+            Email = customer.Email,
+            PhoneNumber = customer.PhoneNumber,
+            Address = customer.Address,
+            DateRegistered = customer.DateRegistered
+        };
     }
 
-    public async Task<Customer> CreateCustomerAsync(Customer customer)
+    public async Task<CustomerVM> CreateCustomerAsync(CustomerIM customerInputModel)
     {
+        var customer = new Customer
+        {
+            Name = customerInputModel.Name,
+            Email = customerInputModel.Email,
+            PhoneNumber = customerInputModel.PhoneNumber,
+            Address = customerInputModel.Address,
+        };
+
         _context.Customers.Add(customer);
         await _context.SaveChangesAsync();
-        return customer;
+
+        return new CustomerVM
+        {
+            CustomerId = customer.CustomerId,
+            Name = customer.Name,
+            Email = customer.Email,
+            PhoneNumber = customer.PhoneNumber,
+            Address = customer.Address,
+            DateRegistered = customer.DateRegistered
+        };
     }
 
-    public async Task<Customer> UpdateCustomerAsync(int id, Customer customer)
+    public async Task<CustomerVM> UpdateCustomerAsync(int id, CustomerUM customerUpdateModel)
     {
         var existingCustomer = await _context.Customers.FindAsync(id);
         if (existingCustomer == null) return null;
 
-        existingCustomer.Name = customer.Name;
-        existingCustomer.Email = customer.Email;
-        existingCustomer.PhoneNumber = customer.PhoneNumber;
-        existingCustomer.Address = customer.Address;
-        existingCustomer.DateRegistered = customer.DateRegistered;
+        existingCustomer.Name = customerUpdateModel.Name;
+        existingCustomer.Email = customerUpdateModel.Email;
+        existingCustomer.PhoneNumber = customerUpdateModel.PhoneNumber;
+        existingCustomer.Address = customerUpdateModel.Address;
 
         await _context.SaveChangesAsync();
-        return existingCustomer;
+
+        return new CustomerVM
+        {
+            CustomerId = existingCustomer.CustomerId,
+            Name = existingCustomer.Name,
+            Email = existingCustomer.Email,
+            PhoneNumber = existingCustomer.PhoneNumber,
+            Address = existingCustomer.Address,
+            DateRegistered = existingCustomer.DateRegistered
+        };
     }
 
     public async Task<bool> DeleteCustomerAsync(int id)
