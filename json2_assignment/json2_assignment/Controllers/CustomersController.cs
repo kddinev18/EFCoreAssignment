@@ -3,91 +3,63 @@ using System.Linq;
 using json2_assignment.DM.Models;
 using json2_assignment.DAL.Repository;
 using json2_assignment.Domain.DTOs;
+using json2_assignment.Domain.Services;
+using json2_assignment.Domain.Services;
 
-namespace json2_assignment.Services;
+namespace json2_assignment.Controllers;
+
 
 [ApiController]
 [Route("api/[controller]")]
 public class CustomersController : ControllerBase
 {
-    private readonly CustomerRepository _repository;
+    private readonly ICustomerService _customerService;
 
-    public CustomersController(CustomerRepository repository)
+    public CustomersController(ICustomerService customerService)
     {
-        _repository = repository;
+        _customerService = customerService;
     }
 
     [HttpGet]
-    public IActionResult GetAll()
+    public async Task<ActionResult<IEnumerable<CustomerDto>>> GetCustomers()
     {
-        var customers = _repository.GetAll().ToList();
-        return Ok(customers.Select(c => new CustomerDto
-        {
-            Id = c.Id,
-            Name = c.Name,
-            Email = c.Email,
-            PhoneNumber = c.PhoneNumber,
-            Address = c.Address,
-            DateRegistered = c.DateRegistered
-        }));
+        var customers = await _customerService.GetAllCustomersAsync();
+        return Ok(customers);
     }
 
     [HttpGet("{id}")]
-    public IActionResult GetById(int id)
+    public async Task<ActionResult<CustomerDto>> GetCustomer(int id)
     {
-        var customer = _repository.GetById(id);
-        if (customer == null) return NotFound();
-        return Ok(new CustomerDto
+        var customer = await _customerService.GetCustomerByIdAsync(id);
+        if (customer == null)
         {
-            Id = customer.Id,
-            Name = customer.Name,
-            Email = customer.Email,
-            PhoneNumber = customer.PhoneNumber,
-            Address = customer.Address,
-            DateRegistered = customer.DateRegistered
-        });
+            return NotFound();
+        }
+        return Ok(customer);
     }
 
     [HttpPost]
-    public IActionResult Create([FromBody] CustomerDto customerDto)
+    public async Task<ActionResult<CustomerDto>> CreateCustomer(CustomerDto customerDto)
     {
-        var customer = new Customer
-        {
-            Id = customerDto.Id,
-            Name = customerDto.Name,
-            Email = customerDto.Email,
-            PhoneNumber = customerDto.PhoneNumber,
-            Address = customerDto.Address,
-            DateRegistered = customerDto.DateRegistered
-        };
-
-        if (_repository.Add(customer)) return CreatedAtAction(nameof(GetById), new { id = customer.Id }, customer);
-        return BadRequest();
+        var created = await _customerService.CreateCustomerAsync(customerDto);
+        return CreatedAtAction(nameof(GetCustomer), new { id = created.CustomerId }, created);
     }
 
     [HttpPut("{id}")]
-    public IActionResult Update(int id, [FromBody] CustomerDto customerDto)
+    public async Task<IActionResult> UpdateCustomer(int id, CustomerDto customerDto)
     {
-        if (id != customerDto.Id) return BadRequest();
-
-        var customer = new Customer
+        if (id != customerDto.CustomerId)
         {
-            Id = customerDto.Id,
-            Name = customerDto.Name,
-            Email = customerDto.Email,
-            PhoneNumber = customerDto.PhoneNumber,
-            Address = customerDto.Address,
-            DateRegistered = customerDto.DateRegistered
-        };
-
-        if (_repository.Update(customer)) return NoContent();
-        return NotFound();
+            return BadRequest();
+        }
+        await _customerService.UpdateCustomerAsync(customerDto);
+        return NoContent();
     }
 
     [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
+    public async Task<IActionResult> DeleteCustomer(int id)
     {
-        if (_repository.Delete(id)) return NoContent();
-        return NotFound();
+        await _customerService.DeleteCustomerAsync(id);
+        return NoContent();
     }
 }

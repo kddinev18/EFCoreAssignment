@@ -3,92 +3,68 @@ using System.Linq;
 using json2_assignment.Domain.DTOs;
 using json2_assignment.DM.Models;
 using json2_assignment.DAL.Repository;
+using json2_assignment.Domain.Services;
 
-
-namespace json2_assignment;
+namespace json2_assignment.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 public class SalesController : ControllerBase
 {
-    private readonly SaleRepository _repository;
+    private readonly ISaleService _saleService;
 
-    public SalesController(SaleRepository repository)
+    public SalesController(ISaleService saleService)
     {
-        _repository = repository;
+        _saleService = saleService;
     }
 
     [HttpGet]
-    public IActionResult GetAll()
+    public async Task<ActionResult<IEnumerable<SaleDto>>> GetSales()
     {
-        var sales = _repository.GetAll().ToList();
-        return Ok(sales.Select(s => new SaleDto
-        {
-            Id = s.Id,
-            CustomerId = s.CustomerId,
-            ProductId = s.ProductId,
-            Quantity = s.Quantity,
-            SaleDate = s.SaleDate,
-            TotalPrice = s.TotalPrice
-        }));
+        var sales = await _saleService.GetAllSalesAsync();
+        return Ok(sales);
     }
 
     [HttpGet("{id}")]
-    public IActionResult GetById(int id)
+    public async Task<ActionResult<SaleDto>> GetSale(int id)
     {
-        var sale = _repository.GetById(id);
-        if (sale == null) return NotFound();
-        return Ok(new SaleDto
+        var sale = await _saleService.GetSaleByIdAsync(id);
+        if (sale == null)
         {
-            Id = sale.Id,
-            CustomerId = sale.CustomerId,
-            ProductId = sale.ProductId,
-            Quantity = sale.Quantity,
-            SaleDate = sale.SaleDate,
-            TotalPrice = sale.TotalPrice
-        });
+            return NotFound();
+        }
+        return Ok(sale);
+    }
+
+    [HttpGet("customer/{customerId}")]
+    public async Task<ActionResult<IEnumerable<SaleDto>>> GetSalesByCustomer(int customerId)
+    {
+        var sales = await _saleService.GetSalesByCustomerAsync(customerId);
+        return Ok(sales);
     }
 
     [HttpPost]
-    public IActionResult Create([FromBody] SaleDto saleDto)
+    public async Task<ActionResult<SaleDto>> CreateSale(SaleDto saleDto)
     {
-        var sale = new Sale
-        {
-            Id = saleDto.Id,
-            CustomerId = saleDto.CustomerId,
-            ProductId = saleDto.ProductId,
-            Quantity = saleDto.Quantity,
-            SaleDate = saleDto.SaleDate,
-            TotalPrice = saleDto.TotalPrice
-        };
-
-        if (_repository.Add(sale)) return CreatedAtAction(nameof(GetById), new { id = sale.Id }, sale);
-        return BadRequest();
+        var created = await _saleService.CreateSaleAsync(saleDto);
+        return CreatedAtAction(nameof(GetSale), new { id = created.SaleId }, created);
     }
 
     [HttpPut("{id}")]
-    public IActionResult Update(int id, [FromBody] SaleDto saleDto)
+    public async Task<IActionResult> UpdateSale(int id, SaleDto saleDto)
     {
-        if (id != saleDto.Id) return BadRequest();
-
-        var sale = new Sale
+        if (id != saleDto.SaleId)
         {
-            Id = saleDto.Id,
-            CustomerId = saleDto.CustomerId,
-            ProductId = saleDto.ProductId,
-            Quantity = saleDto.Quantity,
-            SaleDate = saleDto.SaleDate,
-            TotalPrice = saleDto.TotalPrice
-        };
-
-        if (_repository.Update(sale)) return NoContent();
-        return NotFound();
+            return BadRequest();
+        }
+        await _saleService.UpdateSaleAsync(saleDto);
+        return NoContent();
     }
 
     [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
+    public async Task<IActionResult> DeleteSale(int id)
     {
-        if (_repository.Delete(id)) return NoContent();
-        return NotFound();
+        await _saleService.DeleteSaleAsync(id);
+        return NoContent();
     }
 }

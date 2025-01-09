@@ -3,92 +3,69 @@ using System.Linq;
 using json2_assignment.Domain.DTOs;
 using json2_assignment.DM.Models;
 using json2_assignment.DAL.Repository;
+using json2_assignment.Domain.Services;
 
 
-namespace json2_assignment.Services;
+namespace json2_assignment.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 public class ProductsController : ControllerBase
 {
-    private readonly ProductRepository _repository;
+    private readonly IProductService _productService;
 
-    public ProductsController(ProductRepository repository)
+    public ProductsController(IProductService productService)
     {
-        _repository = repository;
+        _productService = productService;
     }
 
     [HttpGet]
-    public IActionResult GetAll()
+    public async Task<ActionResult<IEnumerable<ProductDto>>> GetProducts()
     {
-        var products = _repository.GetAll().ToList();
-        return Ok(products.Select(p => new ProductDto
-        {
-            Id = p.Id,
-            Name = p.Name,
-            Price = p.Price,
-            Stock = p.Stock,
-            Description = p.Description,
-            CategoryId = p.CategoryId
-        }));
+        var products = await _productService.GetAllProductsAsync();
+        return Ok(products);
     }
 
     [HttpGet("{id}")]
-    public IActionResult GetById(int id)
+    public async Task<ActionResult<ProductDto>> GetProduct(int id)
     {
-        var product = _repository.GetById(id);
-        if (product == null) return NotFound();
-        return Ok(new ProductDto
+        var product = await _productService.GetProductByIdAsync(id);
+        if (product == null)
         {
-            Id = product.Id,
-            Name = product.Name,
-            Price = product.Price,
-            Stock = product.Stock,
-            Description = product.Description,
-            CategoryId = product.CategoryId
-        });
+            return NotFound();
+        }
+        return Ok(product);
+    }
+
+    [HttpGet("category/{categoryId}")]
+    public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductsByCategory(int categoryId)
+    {
+        var products = await _productService.GetProductsByCategoryAsync(categoryId);
+        return Ok(products);
     }
 
     [HttpPost]
-    public IActionResult Create([FromBody] ProductDto productDto)
+    public async Task<ActionResult<ProductDto>> CreateProduct(ProductDto productDto)
     {
-        var product = new Product
-        {
-            Id = productDto.Id,
-            Name = productDto.Name,
-            Price = productDto.Price,
-            Stock = productDto.Stock,
-            Description = productDto.Description,
-            CategoryId = productDto.CategoryId
-        };
-
-        if (_repository.Add(product)) return CreatedAtAction(nameof(GetById), new { id = product.Id }, product);
-        return BadRequest();
+        var created = await _productService.CreateProductAsync(productDto);
+        return CreatedAtAction(nameof(GetProduct), new { id = created.ProductId }, created);
     }
 
     [HttpPut("{id}")]
-    public IActionResult Update(int id, [FromBody] ProductDto productDto)
+    public async Task<IActionResult> UpdateProduct(int id, ProductDto productDto)
     {
-        if (id != productDto.Id) return BadRequest();
-
-        var product = new Product
+        if (id != productDto.ProductId)
         {
-            Id = productDto.Id,
-            Name = productDto.Name,
-            Price = productDto.Price,
-            Stock = productDto.Stock,
-            Description = productDto.Description,
-            CategoryId = productDto.CategoryId
-        };
-
-        if (_repository.Update(product)) return NoContent();
-        return NotFound();
+            return BadRequest();
+        }
+        await _productService.UpdateProductAsync(productDto);
+        return NoContent();
     }
 
     [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
+    public async Task<IActionResult> DeleteProduct(int id)
     {
-        if (_repository.Delete(id)) return NoContent();
-        return NotFound();
+        await _productService.DeleteProductAsync(id);
+        return NoContent();
     }
 }

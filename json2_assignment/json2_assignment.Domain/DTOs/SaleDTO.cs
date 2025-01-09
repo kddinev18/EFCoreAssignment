@@ -2,7 +2,7 @@ namespace json2_assignment.Domain.DTOs;
 
 public class SaleDto
 {
-    public int Id { get; set; }
+    public int SaleId { get; set; }
     public int CustomerId { get; set; }
     public int ProductId { get; set; }
     public int Quantity { get; set; }

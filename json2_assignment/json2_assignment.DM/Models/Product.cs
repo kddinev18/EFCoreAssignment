@@ -3,27 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace json2_assignment.DM.Models;
 
-public class Product : IBaseModel
+public class Product
 {
-    [Key]
-    public int Id { get; set; }
-
-    [ForeignKey("Category")]
+    public int ProductId { get; set; }
     public int CategoryId { get; set; }
-    public Category Category { get; set; }
-
-    [Required]
-    [StringLength(100)]
     public string Name { get; set; }
-
-    [Required]
-    [Range(0.01, double.MaxValue)]
     public decimal Price { get; set; }
-
-    [Required]
-    [Range(0, int.MaxValue)]
     public int Stock { get; set; }
-
-    [StringLength(500)]
     public string Description { get; set; }
+    public virtual Category Category { get; set; }
+    public virtual ICollection<Sale> Sales { get; set; }
 }

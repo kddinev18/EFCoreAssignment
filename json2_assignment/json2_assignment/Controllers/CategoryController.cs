@@ -3,80 +3,60 @@ using System.Linq;
 using json2_assignment.DAL.Repository;
 using json2_assignment.DM.Models;
 using json2_assignment.Domain.DTOs;
+using json2_assignment.Domain.Services;
 
-
-namespace json2_assignment.Domain.DTOs.Services;
-
+namespace json2_assignment.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 public class CategoriesController : ControllerBase
 {
-    private readonly CategoryRepository _repository;
+    private readonly ICategoryService _categoryService;
 
-    public CategoriesController(CategoryRepository repository)
+    public CategoriesController(ICategoryService categoryService)
     {
-        _repository = repository;
+        _categoryService = categoryService;
     }
 
     [HttpGet]
-    public IActionResult GetAll()
+    public async Task<ActionResult<IEnumerable<CategoryDto>>> GetCategories()
     {
-        var categories = _repository.GetAll().ToList();
-        return Ok(categories.Select(c => new CategoryDto
-        {
-            Id = c.Id,
-            Name = c.Name,
-            Description = c.Description
-        }));
+        var categories = await _categoryService.GetAllCategoriesAsync();
+        return Ok(categories);
     }
 
     [HttpGet("{id}")]
-    public IActionResult GetById(int id)
+    public async Task<ActionResult<CategoryDto>> GetCategory(int id)
     {
-        var category = _repository.GetById(id);
-        if (category == null) return NotFound();
-        return Ok(new CategoryDto
+        var category = await _categoryService.GetCategoryByIdAsync(id);
+        if (category == null)
         {
-            Id = category.Id,
-            Name = category.Name,
-            Description = category.Description
-        });
+            return NotFound();
+        }
+        return Ok(category);
     }
 
     [HttpPost]
-    public IActionResult Create([FromBody] CategoryDto categoryDto)
+    public async Task<ActionResult<CategoryDto>> CreateCategory(CategoryDto categoryDto)
     {
-        var category = new Category
-        {
-            Id = categoryDto.Id,
-            Name = categoryDto.Name,
-            Description = categoryDto.Description
-        };
-
-        if (_repository.Add(category)) return CreatedAtAction(nameof(GetById), new { id = category.Id }, category);
-        return BadRequest();
+        var created = await _categoryService.CreateCategoryAsync(categoryDto);
+        return CreatedAtAction(nameof(GetCategory), new { id = created.CategoryId }, created);
     }
 
     [HttpPut("{id}")]
-    public IActionResult Update(int id, [FromBody] CategoryDto categoryDto)
+    public async Task<IActionResult> UpdateCategory(int id, CategoryDto categoryDto)
     {
-        if (id != categoryDto.Id) return BadRequest();
-
-        var category = new Category
+        if (id != categoryDto.CategoryId)
         {
-            Id = categoryDto.Id,
-            Name = categoryDto.Name,
-            Description = categoryDto.Description
-        };
-
-        if (_repository.Update(category)) return NoContent();
-        return NotFound();
+            return BadRequest();
+        }
+        await _categoryService.UpdateCategoryAsync(categoryDto);
+        return NoContent();
     }
 
     [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
+    public async Task<IActionResult> DeleteCategory(int id)
     {
-        if (_repository.Delete(id)) return NoContent();
-        return NotFound();
+        await _categoryService.DeleteCategoryAsync(id);
+        return NoContent();
     }
 }

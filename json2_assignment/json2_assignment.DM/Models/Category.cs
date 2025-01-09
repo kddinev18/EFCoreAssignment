@@ -3,15 +3,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace json2_assignment.DM.Models;
 
-public class Category : IBaseModel
+public class Category
 {
-    [Key]
-    public int Id { get; set; }
-
-    [Required]
-    [StringLength(100)]
+    public int CategoryId { get; set; }
     public string Name { get; set; }
-
-    [StringLength(500)]
     public string Description { get; set; }
+    public virtual ICollection<Product> Products { get; set; }
 }
