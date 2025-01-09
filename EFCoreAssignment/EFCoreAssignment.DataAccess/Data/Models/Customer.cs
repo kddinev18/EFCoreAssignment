@@ -1,17 +1,21 @@
 using System.ComponentModel.DataAnnotations;
-using HrManagement.DataAccess.Data.Models;
 
 namespace EFCoreAssignment.DataAccess.Data.Models;
 
 public class Customer : IBaseModel
 {
+    [Key]
+    public int Id { get; set; }
+    
     [StringLength(50)]
     public string Name { get; set; } = null!;
 
     [EmailAddress]
+    [StringLength(100)]
     public string Email { get; set; } = null!;
 
     [Phone] 
+    [StringLength(50)]
     public string PhoneNumber { get; set; } = null!;
 
     [StringLength(200)]
@@ -20,6 +24,4 @@ public class Customer : IBaseModel
     [Required]
     [DataType(DataType.Date)]
     public DateTime DateRegistered { get; set; }
-
-    public Guid Id { get; set; }
 }

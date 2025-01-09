@@ -1,7 +1,7 @@
-﻿using HrManagement.DataAccess.Data.Models;
+﻿using EFCoreAssignment.DataAccess.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace HrManagement.DataAccess.Data;
+namespace EFCoreAssignment.DataAccess.Data;
 
 public partial class ApplicationDbContext : DbContext
 {
@@ -14,11 +14,11 @@ public partial class ApplicationDbContext : DbContext
     {
     }
 
-    public virtual DbSet<Assignment> Assignments { get; set; }
+    public virtual DbSet<Customer> Customers { get; set; }
 
-    public virtual DbSet<Department> Departments { get; set; }
+    public virtual DbSet<Category> Categories { get; set; }
 
-    public virtual DbSet<Employee> Employees { get; set; }
+    public virtual DbSet<Product> Products { get; set; }
 
-    public virtual DbSet<Project> Projects { get; set; }
+    public virtual DbSet<Sale> Sales { get; set; }
 }

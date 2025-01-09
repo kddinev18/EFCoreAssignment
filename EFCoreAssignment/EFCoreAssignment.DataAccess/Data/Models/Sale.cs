@@ -4,6 +4,9 @@ namespace EFCoreAssignment.DataAccess.Data.Models;
 
 public class Sale : IBaseModel
 {
+    [Key]
+    public int Id { get; set; }
+    
     [Required]
     public int Quantity { get; set; }
 
@@ -21,5 +24,4 @@ public class Sale : IBaseModel
     [Required]
     public int ProductId { get; set; }
     public virtual Product Product { get; set; } = null!;
-    public Guid Id { get; set; }
 }

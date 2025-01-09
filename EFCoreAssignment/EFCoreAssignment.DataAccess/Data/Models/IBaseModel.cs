@@ -4,6 +4,5 @@ namespace EFCoreAssignment.DataAccess.Data.Models;
 
 public interface IBaseModel
 {
-    [Key]
-    public Guid Id { get; set; }
+    public int Id { get; set; }
 }

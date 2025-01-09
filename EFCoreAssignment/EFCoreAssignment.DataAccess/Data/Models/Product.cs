@@ -2,8 +2,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EFCoreAssignment.DataAccess.Data.Models;
 
-public class Product
+public class Product : IBaseModel
 {
+    [Key]
+    public int Id { get; set; }
+    
     [StringLength(50)]
     public string Name { get; set; } = null!;
 
