@@ -3,12 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EFCoreAssignment.DataAccess.Models;
 
-public class User
+public class User : BaseEntity
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int UserId { get; set; }
-
     [Required]
     public string FirstName { get; set; } = null!;
 

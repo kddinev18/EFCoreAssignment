@@ -6,7 +6,7 @@ namespace EFCoreAssignment.Domain.Models.Order;
 public class ResponseOrder
 {
     [Required]
-    public int OrderId { get; set; }
+    public int Id { get; set; }
     
     [Required]
     public int UserId { get; set; }

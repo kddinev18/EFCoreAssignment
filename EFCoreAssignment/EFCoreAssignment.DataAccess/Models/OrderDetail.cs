@@ -3,12 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EFCoreAssignment.DataAccess.Models;
 
-public class OrderDetail
+public class OrderDetail : BaseEntity
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int OrderDetailId { get; set; }
-    
     [Required]
     public int OrderId { get; set; }
     

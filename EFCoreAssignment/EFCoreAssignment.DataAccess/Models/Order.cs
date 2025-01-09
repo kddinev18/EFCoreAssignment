@@ -10,12 +10,8 @@ public enum OrderStatus
     Completed
 }
 
-public class Order
+public class Order : BaseEntity
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int OrderId { get; set; }
-    
     [Required]
     public int UserId { get; set; }
 
