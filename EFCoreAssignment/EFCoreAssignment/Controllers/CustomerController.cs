@@ -10,7 +10,7 @@ public class CustomerController : Controller
 {
     private readonly ICustomerService _customerService;
 
-    CustomerController(ICustomerService customerService)
+    public CustomerController(ICustomerService customerService)
     {
         _customerService = customerService;
     }

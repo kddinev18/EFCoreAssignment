@@ -9,29 +9,36 @@ namespace EFCoreAssignment.Infrastructure.Services;
 public class ProductService : IProductService
 {
     private readonly ProductRepository _productRepository;
+    private readonly ICategoryService _categoryService;
 
-    public ProductService(ProductRepository productRepository)
+    public ProductService(ProductRepository productRepository, ICategoryService categoryService)
     {
         _productRepository = productRepository;
+        _categoryService = categoryService;
     }
     
     public ProductResponseDTO GetProduct(int id)
     {
-        return _productRepository.GetById(id)
-        .Select(product => new ProductResponseDTO
+        var product = _productRepository.GetById(id).First();
+
+        var category = _categoryService.GetCategory(product.CategoryId);
+
+        return new ProductResponseDTO
         {
             Id = product.Id,
             Name = product.Name,
             Price = product.Price,
             Stock = product.Stock,
             Description = product.Description,
-            Category = product.Category,
-        }).First();
+            Category = category
+        };
     }
 
     public List<ProductResponseDTO> GetAllProducts()  
     {
-        return _productRepository.GetAll()
+        var products = _productRepository.GetAll().ToList();
+
+        return products
         .Select(product => new ProductResponseDTO
         {
             Id = product.Id,
@@ -39,7 +46,7 @@ public class ProductService : IProductService
             Price = product.Price,
             Stock = product.Stock,
             Description = product.Description,
-            Category = product.Category,
+            Category = _categoryService.GetCategory(product.CategoryId)
         }).ToList();
     }
 

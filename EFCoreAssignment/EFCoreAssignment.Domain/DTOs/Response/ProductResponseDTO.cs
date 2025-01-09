@@ -1,5 +1,3 @@
-using EFCoreAssignment.DataAccess.Data.Models;
-
 namespace EFCoreAssignment.Domain.DTOs.Response;
 
 public class ProductResponseDTO
@@ -14,5 +12,5 @@ public class ProductResponseDTO
     
     public string Description { get; set; } = null!;
 
-    public Category Category { get; set; } = null!;
+    public CategoryResponseDTO Category { get; set; } = null!;
 }

@@ -1,5 +1,3 @@
-using EFCoreAssignment.DataAccess.Data.Models;
-
 namespace EFCoreAssignment.Domain.DTOs.Response;
 
 public class SaleResponseDTO
@@ -12,7 +10,7 @@ public class SaleResponseDTO
     
     public decimal TotalPrice { get; set; }
 
-    public Customer Customer { get; set; } = null!;
+    public CustomerResponseDTO Customer { get; set; } = null!;
 
-    public Product Product { get; set; } = null!;
+    public ProductResponseDTO Product { get; set; } = null!;
 }

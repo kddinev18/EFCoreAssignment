@@ -9,37 +9,46 @@ namespace EFCoreAssignment.Infrastructure.Services;
 public class SaleService : ISaleService
 {
     private readonly SaleRepository _saleRepository;
+    private readonly ICustomerService _customerService;
+    private readonly IProductService _productService;
 
-    public SaleService(SaleRepository saleRepository)
+    public SaleService(SaleRepository saleRepository, ICustomerService customerService, IProductService productService)
     {
         _saleRepository = saleRepository;
+        _customerService = customerService;
+        _productService = productService;
     }
     
     public SaleResponseDTO GetSale(int id)
     {
-        return _saleRepository.GetById(id)
-            .Select(sale => new SaleResponseDTO
-            {
-                Id = sale.Id,
-                Quantity = sale.Quantity,
-                SaleDate = sale.SaleDate,
-                TotalPrice = sale.TotalPrice,
-                Customer = sale.Customer,
-                Product = sale.Product
-            }).First();
+        var sale = _saleRepository.GetById(id).First();
+        var customer = _customerService.GetCustomer(sale.CustomerId);
+        var product = _productService.GetProduct(sale.ProductId);
+
+        return new SaleResponseDTO
+        {
+            Id = sale.Id,
+            Quantity = sale.Quantity,
+            SaleDate = sale.SaleDate,
+            TotalPrice = sale.TotalPrice,
+            Customer = customer,
+            Product = product,
+        };
     }
 
     public List<SaleResponseDTO> GetAllSales()  
     {
-        return _saleRepository.GetAll()
+        var sale = _saleRepository.GetAll().ToList();
+
+        return sale
         .Select(sale => new SaleResponseDTO
         {
             Id = sale.Id,
             Quantity = sale.Quantity,
             SaleDate = sale.SaleDate,
             TotalPrice = sale.TotalPrice,
-            Customer = sale.Customer,
-            Product = sale.Product
+            Customer = _customerService.GetCustomer(sale.CustomerId),
+            Product = _productService.GetProduct(sale.ProductId),
         }).ToList();
     }
 

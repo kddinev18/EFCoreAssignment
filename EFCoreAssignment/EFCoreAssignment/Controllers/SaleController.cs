@@ -10,7 +10,7 @@ public class SaleController : Controller
 {
     private readonly ISaleService _saleService;
 
-    SaleController(ISaleService saleService)
+    public SaleController(ISaleService saleService)
     {
         _saleService = saleService;
     }

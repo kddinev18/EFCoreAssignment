@@ -11,11 +11,9 @@ public class Customer : IBaseModel
     public string Name { get; set; } = null!;
 
     [EmailAddress]
-    [StringLength(100)]
     public string Email { get; set; } = null!;
 
     [Phone] 
-    [StringLength(50)]
     public string PhoneNumber { get; set; } = null!;
 
     [StringLength(200)]
@@ -24,4 +22,6 @@ public class Customer : IBaseModel
     [Required]
     [DataType(DataType.Date)]
     public DateTime DateRegistered { get; set; }
+
+    public virtual ICollection<Sale> Sales { get; set; } = new List<Sale>();
 }
