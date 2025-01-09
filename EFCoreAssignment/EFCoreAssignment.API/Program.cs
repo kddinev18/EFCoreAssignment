@@ -1,3 +1,8 @@
+using EFCoreAssignment.Data.Data.Contexts;
+using EFCoreAssignment.Data.Data.Repositories;
+using EFCoreAssignment.Data.Interfaces;
+using EFCoreAssignment.Core.Interfaces;
+using EFCoreAssignment.Core.Services;
 
 namespace EFCoreAssignment.API
 {
@@ -12,6 +17,12 @@ namespace EFCoreAssignment.API
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
+
+            builder.Services.AddDbContext<EFCoreAssignmentDbContext>();
+
+            builder.Services.AddScoped<IBaseRepository, BaseRepository>();
+
+            builder.Services.AddScoped<IBaseService, BaseService>();
 
             var app = builder.Build();
 

@@ -4,9 +4,9 @@ using EFCoreAssignment.Data.Data.Contexts;
 
 namespace EFCoreAssignment.Data.Data.Repositories
 {
-    public class BaseRepository(EFCoreAssignment dbContext) : IBaseRepository
+    public class BaseRepository(EFCoreAssignmentDbContext dbContext) : IBaseRepository
     {
-        private readonly EFCoreAssignment _dbContext = dbContext;
+        private readonly EFCoreAssignmentDbContext _dbContext = dbContext;
 
         public async Task<bool> Create<T>(T entity) where T : class
         {
