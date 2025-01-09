@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EFCoreAssignment.Data\EFCoreAssignment.Data.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -21,5 +21,7 @@ namespace EFCoreAssignment.Data.Models
         [Required]
         public DateOnly DateCreatead { get; set; } = DateOnly.FromDateTime(DateTime.Now);
 
+        public ICollection<Order> Orders { get; set; } = null!;
+
     }
 }

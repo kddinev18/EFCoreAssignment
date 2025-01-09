@@ -14,4 +14,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EFCoreAssignment.Core\EFCoreAssignment.Core.csproj" />
+  </ItemGroup>
+
 </Project>

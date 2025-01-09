@@ -22,5 +22,7 @@ namespace EFCoreAssignment.Data.Models
         [Required]
         public int Stock { get; set; }
 
+        public ICollection<OrderDetail> OrderDetails { get; set; } = null!;
+
     }
 }

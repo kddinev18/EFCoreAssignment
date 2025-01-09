@@ -11,6 +11,7 @@ namespace EFCoreAssignment.Data.Models
 
         [Required]
         public int UserId { get; set; }
+        public User User { get; set; } = null!;
 
         [Required]
         public DateOnly DateCreated { get; set; } = DateOnly.FromDateTime(DateTime.Now);
@@ -21,5 +22,7 @@ namespace EFCoreAssignment.Data.Models
 
         [Required]
         public string Status { get; set; } = null!;
+
+        public ICollection<OrderDetail> OrderDetails { get; set; } = null!;
     }
 }
