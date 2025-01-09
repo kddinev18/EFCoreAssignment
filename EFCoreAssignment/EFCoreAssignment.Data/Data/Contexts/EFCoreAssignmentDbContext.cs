@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using EFCoreAssignment.Data.Models;
+using System.Text.Json;
 
 namespace EFCoreAssignment.Data.Data.Contexts
 {
@@ -12,13 +13,6 @@ namespace EFCoreAssignment.Data.Data.Contexts
 
         public EFCoreAssignmentDbContext() { }
         public EFCoreAssignmentDbContext(DbContextOptions<EFCoreAssignmentDbContext> options) : base(options) { }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder
-            .UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=EFCoreAssignment;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False")
-            .UseLazyLoadingProxies();
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

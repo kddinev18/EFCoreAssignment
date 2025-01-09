@@ -3,6 +3,7 @@ using EFCoreAssignment.Data.Data.Repositories;
 using EFCoreAssignment.Data.Interfaces;
 using EFCoreAssignment.Core.Interfaces;
 using EFCoreAssignment.Core.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace EFCoreAssignment.API
 {
@@ -18,6 +19,13 @@ namespace EFCoreAssignment.API
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddDbContext<EFCoreAssignmentDbContext>(options =>
+            {
+                options
+                .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+                .UseLazyLoadingProxies();
+            });
 
             builder.Services.AddDbContext<EFCoreAssignmentDbContext>();
 
