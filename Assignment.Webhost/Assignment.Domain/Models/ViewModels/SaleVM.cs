@@ -1,4 +1,4 @@
-﻿namespace Assignment.Domain.DTOModels.ViewModels
+﻿namespace Assignment.Domain.Models.ViewModels
 {
     public class SaleVm
     {

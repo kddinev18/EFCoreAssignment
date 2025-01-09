@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Assignment.Domain.DTOModels.InputModels
+namespace Assignment.Domain.Models.InputModels
 {
     public class CategoryIm
     {

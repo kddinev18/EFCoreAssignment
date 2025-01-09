@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Assignment.Domain.DTOModels.UpdateModels
+namespace Assignment.Domain.Models.UpdateModels
 {
     public class CustomerUm
     {
