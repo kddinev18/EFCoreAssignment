@@ -11,6 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Mapster" Version="7.4.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">
         <PrivateAssets>all</PrivateAssets>
@@ -24,7 +25,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Services\" />
+      <ProjectReference Include="..\JsonTRI.Domain\JsonTRI.Domain.csproj" />
+      <ProjectReference Include="..\JsonTRI.Infrastucture\JsonTRI.Infrastucture.csproj" />
     </ItemGroup>
 
 </Project>

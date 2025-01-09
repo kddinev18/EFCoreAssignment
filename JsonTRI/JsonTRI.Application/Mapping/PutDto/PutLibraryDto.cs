@@ -12,5 +12,4 @@ namespace JsonTRI.Application.Mapping.PutDto
         public string Location { get; set; }
         public int EstablishedYear { get; set; }
     }
-}
-}
+} 

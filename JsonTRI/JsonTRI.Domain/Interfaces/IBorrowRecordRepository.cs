@@ -1,15 +1,17 @@
 ﻿using JsonTRI.Domain.Entities;
-using JsonTRI.Domain.Entities;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace JsonTRI.Domain.Interfaces
 {
     public interface IBorrowRecordRepository
     {
-        Task<IEnumerable<BorrowRecord>> GetByOrderIdAsync(int BorrowRecordId);
+        Task<IEnumerable<BorrowRecord>> GetAllAsync();
+        Task<BorrowRecord> GetByIdAsync(int id);
+        Task<IEnumerable<BorrowRecord>> GetByBookIdAsync(int bookId);
+        Task<IEnumerable<BorrowRecord>> GetByLibraryIdAsync(int libraryId);
+        Task AddAsync(BorrowRecord borrowRecord);
+        Task UpdateAsync(BorrowRecord borrowRecord);
+        Task DeleteAsync(int id);
     }
 }

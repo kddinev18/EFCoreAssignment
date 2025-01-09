@@ -9,6 +9,10 @@ namespace JsonTRI.Domain.Interfaces
 {
     public interface IBookRepository
     {
-        Task<IEnumerable<Book>> GetByOrderIdAsync(int BookId);
+        Task<Book> GetByIdAsync(int id);
+        Task<IEnumerable<Book>> GetByAuthorIdAsync(int BookId);
+        Task AddAsync(Book author);
+        Task UpdateAsync(Book author);
+        Task DeleteAsync(int id);
     }
 }

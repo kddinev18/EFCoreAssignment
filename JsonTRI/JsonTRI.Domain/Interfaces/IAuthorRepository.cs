@@ -9,6 +9,10 @@ namespace JsonTRI.Domain.Interfaces
 {
     public interface IAuthorRepository
     {
-        Task<IEnumerable<Author>> GetByOrderIdAsync(int AuthorId);
+        Task<Author> GetByIdAsync(int id);
+        Task<IEnumerable<Author>> GetByAuthorIdAsync(int authorId);
+        Task AddAsync(Author author);
+        Task UpdateAsync(Author author);
+        Task DeleteAsync(int id);
     }
 }
