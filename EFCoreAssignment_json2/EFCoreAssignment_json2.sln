@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFCoreAssignment.Presentation", "EFCoreAssignment.Presentation\EFCoreAssignment.Presentation.csproj", "{D8769CD3-CAD5-439A-A815-3BBE3AC0F970}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFCoreAssignment.DataAccess", "EFCoreAssignment.DataAccess\EFCoreAssignment.DataAccess.csproj", "{300E734D-83DB-459F-93B6-DBD463B29FEC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFCoreAssignment.Logic", "EFCoreAssignment.Logic\EFCoreAssignment.Logic.csproj", "{1C53DAE1-F4EA-4529-9B7A-96FBE3DACC02}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D8769CD3-CAD5-439A-A815-3BBE3AC0F970}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8769CD3-CAD5-439A-A815-3BBE3AC0F970}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8769CD3-CAD5-439A-A815-3BBE3AC0F970}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8769CD3-CAD5-439A-A815-3BBE3AC0F970}.Release|Any CPU.Build.0 = Release|Any CPU
+		{300E734D-83DB-459F-93B6-DBD463B29FEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{300E734D-83DB-459F-93B6-DBD463B29FEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{300E734D-83DB-459F-93B6-DBD463B29FEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{300E734D-83DB-459F-93B6-DBD463B29FEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C53DAE1-F4EA-4529-9B7A-96FBE3DACC02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C53DAE1-F4EA-4529-9B7A-96FBE3DACC02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C53DAE1-F4EA-4529-9B7A-96FBE3DACC02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C53DAE1-F4EA-4529-9B7A-96FBE3DACC02}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
