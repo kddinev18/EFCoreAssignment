@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using System.ComponentModel.DataAnnotations;
 
 namespace EFCoreAssignment.DTOs
 {
@@ -11,6 +12,7 @@ namespace EFCoreAssignment.DTOs
         public decimal TotalAmount { get; set; }
 
         [JsonRequired]
+        [MinLength(3)]
         public string Status { get; set; } = null!;
     }
 }
