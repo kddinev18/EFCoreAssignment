@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.11" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EFCoreAssignment.BusinessLogic\EFCoreAssignment.BusinessLogic.csproj" />
+    <ProjectReference Include="..\EFCoreAssignment.DataAccess\EFCoreAssignment.DataAccess.csproj" />
+    <ProjectReference Include="..\EFCoreAssignment.Domain\EFCoreAssignment.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
