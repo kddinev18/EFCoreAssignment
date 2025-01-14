@@ -5,14 +5,15 @@ using Microsoft.AspNetCore.Mvc;
 namespace EfCoreTest.Api.Controllers
 {
     [ApiController]
-    [Route("api/products")]
+    [Route("[controller]/[action]")]
+
     public class ProductsController : ControllerBase
     {
         private readonly ProductService _productService;
 
-        public ProductsController(ProductService productService)
+        public ProductsController()
         {
-            _productService = productService;
+            _productService = new ProductService();
         }
 
         [HttpGet]
@@ -22,8 +23,8 @@ namespace EfCoreTest.Api.Controllers
             return Ok(products);
         }
 
-        [HttpGet("{id:int}")]
-        public IActionResult GetById(int id)
+        [HttpGet]
+        public IActionResult GetById([FromQuery]int id)
         {
             var product = _productService.GetProductById(id);
             if (product == null)
@@ -33,14 +34,14 @@ namespace EfCoreTest.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Product newProduct)
+        public IActionResult Create([FromBody]Product newProduct)
         {
             var createdProduct = _productService.AddProduct(newProduct);
             return CreatedAtAction(nameof(GetById), new { id = createdProduct.ProductId }, createdProduct);
         }
 
-        [HttpPut("{id:int}")]
-        public IActionResult Update(int id, Product updatedProduct)
+        [HttpPut]
+        public IActionResult Update([FromQuery]int id,[FromBody] Product updatedProduct)
         {
             var result = _productService.UpdateProduct(id, updatedProduct);
             if (!result)
@@ -49,8 +50,8 @@ namespace EfCoreTest.Api.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id:int}")]
-        public IActionResult Delete(int id)
+        [HttpDelete]
+        public IActionResult Delete([FromQuery]int id)
         {
             var result = _productService.DeleteProduct(id);
             if (!result)

@@ -5,14 +5,15 @@ using Microsoft.AspNetCore.Mvc;
 namespace EfCoreTest.Api.Controllers
 {
     [ApiController]
-    [Route("api/orders")]
+    [Route("[controller]/[action]")]
+
     public class OrdersController : ControllerBase
     {
         private readonly OrderService _orderService;
 
-        public OrdersController(OrderService orderService)
+        public OrdersController()
         {
-            _orderService = orderService;
+            _orderService = new OrderService();
         }
 
         [HttpGet]
@@ -22,8 +23,8 @@ namespace EfCoreTest.Api.Controllers
             return Ok(orders);
         }
 
-        [HttpGet("{id:int}")]
-        public IActionResult GetById(int id)
+        [HttpGet]
+        public IActionResult GetById([FromQuery]int id)
         {
             var order = _orderService.GetOrderById(id);
             if (order == null)
@@ -33,14 +34,14 @@ namespace EfCoreTest.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Order newOrder)
+        public IActionResult Create([FromBody]Order newOrder)
         {
             var createdOrder = _orderService.AddOrder(newOrder);
             return CreatedAtAction(nameof(GetById), new { id = createdOrder.OrderId }, createdOrder);
         }
 
-        [HttpPut("{id:int}")]
-        public IActionResult Update(int id, Order updatedOrder)
+        [HttpPut]
+        public IActionResult Update([FromQuery]int id,[FromBody] Order updatedOrder)
         {
             var result = _orderService.UpdateOrder(id, updatedOrder);
             if (!result)
@@ -49,8 +50,8 @@ namespace EfCoreTest.Api.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id:int}")]
-        public IActionResult Delete(int id)
+        [HttpDelete]
+        public IActionResult Delete([FromQuery]int id)
         {
             var result = _orderService.DeleteOrder(id);
             if (!result)

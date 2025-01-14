@@ -1,72 +1,60 @@
 using EfCoreTest.DataAccess;
 using EfCoreTest.Models;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace EfCoreTest.Services
 {
     public class UserService
     {
-        private readonly JsonDataAccess _dataAccess;
-        private readonly string _dataKey = "Users";
+        private readonly AppDbContext _context;
 
-        public UserService(JsonDataAccess dataAccess)
+        public UserService()
         {
-            _dataAccess = dataAccess;
+            _context = new AppDbContext(new DbContextOptions<AppDbContext>());
         }
 
         public List<User> GetAllUsers()
         {
-            var data = _dataAccess.ReadData<Dictionary<string, List<User>>>();
-            return data?[_dataKey] ?? new List<User>();
+            return _context.Users.ToList();
         }
 
-        public User? GetUserById(int id)
+        public User GetUserById(int id)
         {
-            return GetAllUsers().FirstOrDefault(u => u.UserId == id);
+            return _context.Users.FirstOrDefault(u => u.UserId == id);
         }
 
         public User AddUser(User newUser)
         {
-            var users = GetAllUsers();
-            newUser.UserId = users.Any() ? users.Max(u => u.UserId) + 1 : 1;
-            users.Add(newUser);
-
-            SaveUsers(users);
+            _context.Users.Add(newUser);
+            _context.SaveChanges();
             return newUser;
         }
 
         public bool UpdateUser(int id, User updatedUser)
         {
-            var users = GetAllUsers();
-            var existingUser = users.FirstOrDefault(u => u.UserId == id);
+            var existingUser = _context.Users.FirstOrDefault(u => u.UserId == id);
             if (existingUser == null)
                 return false;
 
             existingUser.FirstName = updatedUser.FirstName;
             existingUser.LastName = updatedUser.LastName;
             existingUser.Email = updatedUser.Email;
-            existingUser.DateCreated = updatedUser.DateCreated;
 
-            SaveUsers(users);
+            _context.SaveChanges();
             return true;
         }
 
         public bool DeleteUser(int id)
         {
-            var users = GetAllUsers();
-            var userToRemove = users.FirstOrDefault(u => u.UserId == id);
+            var userToRemove = _context.Users.FirstOrDefault(u => u.UserId == id);
             if (userToRemove == null)
                 return false;
 
-            users.Remove(userToRemove);
-            SaveUsers(users);
+            _context.Users.Remove(userToRemove);
+            _context.SaveChanges();
             return true;
-        }
-
-        private void SaveUsers(List<User> users)
-        {
-            var data = _dataAccess.ReadData<Dictionary<string, object>>() ?? new Dictionary<string, object>();
-            data[_dataKey] = users;
-            _dataAccess.WriteData(data);
         }
     }
 }

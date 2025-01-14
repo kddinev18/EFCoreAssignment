@@ -1,72 +1,60 @@
 using EfCoreTest.DataAccess;
 using EfCoreTest.Models;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace EfCoreTest.Services
 {
     public class OrderDetailService
     {
-        private readonly JsonDataAccess _dataAccess;
-        private readonly string _dataKey = "OrderDetails";
+        private readonly AppDbContext _context;
 
-        public OrderDetailService(JsonDataAccess dataAccess)
+        public OrderDetailService()
         {
-            _dataAccess = dataAccess;
+            _context = new AppDbContext(new DbContextOptions<AppDbContext>());
         }
 
         public List<OrderDetail> GetAllOrderDetails()
         {
-            var data = _dataAccess.ReadData<Dictionary<string, List<OrderDetail>>>();
-            return data?[_dataKey] ?? new List<OrderDetail>();
+            return _context.OrderDetails.ToList();
         }
 
         public List<OrderDetail> GetOrderDetailsByOrderId(int orderId)
         {
-            return GetAllOrderDetails().Where(od => od.OrderId == orderId).ToList();
+            return _context.OrderDetails.Where(od => od.OrderId == orderId).ToList();
         }
 
-        public OrderDetail AddOrderDetail(OrderDetail newDetail)
+        public OrderDetail AddOrderDetail(OrderDetail newOrderDetail)
         {
-            var details = GetAllOrderDetails();
-            newDetail.OrderDetailId = details.Any() ? details.Max(od => od.OrderDetailId) + 1 : 1;
-            details.Add(newDetail);
-
-            SaveOrderDetails(details);
-            return newDetail;
+            _context.OrderDetails.Add(newOrderDetail);
+            _context.SaveChanges();
+            return newOrderDetail;
         }
 
-        public bool UpdateOrderDetail(int id, OrderDetail updatedDetail)
+        public bool UpdateOrderDetail(int id, OrderDetail updatedOrderDetail)
         {
-            var details = GetAllOrderDetails();
-            var existingDetail = details.FirstOrDefault(od => od.OrderDetailId == id);
+            var existingDetail = _context.OrderDetails.FirstOrDefault(od => od.OrderDetailId == id);
             if (existingDetail == null)
                 return false;
 
-            existingDetail.OrderId = updatedDetail.OrderId;
-            existingDetail.ProductId = updatedDetail.ProductId;
-            existingDetail.Quantity = updatedDetail.Quantity;
-            existingDetail.PricePerUnit = updatedDetail.PricePerUnit;
+            existingDetail.ProductId = updatedOrderDetail.ProductId;
+            existingDetail.Quantity = updatedOrderDetail.Quantity;
+            existingDetail.PricePerUnit = updatedOrderDetail.PricePerUnit;
 
-            SaveOrderDetails(details);
+            _context.SaveChanges();
             return true;
         }
 
         public bool DeleteOrderDetail(int id)
         {
-            var details = GetAllOrderDetails();
-            var detailToRemove = details.FirstOrDefault(od => od.OrderDetailId == id);
-            if (detailToRemove == null)
+            var orderDetailToRemove = _context.OrderDetails.FirstOrDefault(od => od.OrderDetailId == id);
+            if (orderDetailToRemove == null)
                 return false;
 
-            details.Remove(detailToRemove);
-            SaveOrderDetails(details);
+            _context.OrderDetails.Remove(orderDetailToRemove);
+            _context.SaveChanges();
             return true;
-        }
-
-        private void SaveOrderDetails(List<OrderDetail> details)
-        {
-            var data = _dataAccess.ReadData<Dictionary<string, object>>() ?? new Dictionary<string, object>();
-            data[_dataKey] = details;
-            _dataAccess.WriteData(data);
         }
     }
 }

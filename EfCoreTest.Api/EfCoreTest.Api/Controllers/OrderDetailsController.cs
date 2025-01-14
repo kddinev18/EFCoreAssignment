@@ -5,14 +5,14 @@ using Microsoft.AspNetCore.Mvc;
 namespace EfCoreTest.Api.Controllers
 {
     [ApiController]
-    [Route("api/orderdetails")]
+    [Route("[controller]/[action]")]
     public class OrderDetailsController : ControllerBase
     {
         private readonly OrderDetailService _orderDetailService;
 
-        public OrderDetailsController(OrderDetailService orderDetailService)
+        public OrderDetailsController()
         {
-            _orderDetailService = orderDetailService;
+            _orderDetailService = new OrderDetailService();
         }
 
         [HttpGet]
@@ -22,8 +22,8 @@ namespace EfCoreTest.Api.Controllers
             return Ok(orderDetails);
         }
 
-        [HttpGet("{id:int}")]
-        public IActionResult GetById(int id)
+        [HttpGet]
+        public IActionResult GetById([FromQuery]int id)
         {
             var orderDetail = _orderDetailService.GetOrderDetailsByOrderId(id);
             if (orderDetail == null || !orderDetail.Any())
@@ -33,14 +33,14 @@ namespace EfCoreTest.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(OrderDetail newOrderDetail)
+        public IActionResult Create([FromBody]OrderDetail newOrderDetail)
         {
             var createdOrderDetail = _orderDetailService.AddOrderDetail(newOrderDetail);
             return CreatedAtAction(nameof(GetById), new { id = createdOrderDetail.OrderDetailId }, createdOrderDetail);
         }
 
-        [HttpPut("{id:int}")]
-        public IActionResult Update(int id, OrderDetail updatedOrderDetail)
+        [HttpPut]
+        public IActionResult Update([FromQuery]int id, [FromBody]OrderDetail updatedOrderDetail)
         {
             var result = _orderDetailService.UpdateOrderDetail(id, updatedOrderDetail);
             if (!result)
@@ -49,8 +49,8 @@ namespace EfCoreTest.Api.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id:int}")]
-        public IActionResult Delete(int id)
+        [HttpDelete]
+        public IActionResult Delete([FromQuery]int id)
         {
             var result = _orderDetailService.DeleteOrderDetail(id);
             if (!result)

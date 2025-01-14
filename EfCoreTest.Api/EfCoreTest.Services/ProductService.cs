@@ -1,72 +1,59 @@
 using EfCoreTest.DataAccess;
 using EfCoreTest.Models;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace EfCoreTest.Services
 {
     public class ProductService
     {
-        private readonly JsonDataAccess _dataAccess;
-        private readonly string _dataKey = "Products";
+        private readonly AppDbContext _context;
 
-        public ProductService(JsonDataAccess dataAccess)
+        public ProductService()
         {
-            _dataAccess = dataAccess;
+            _context = new AppDbContext(new DbContextOptions<AppDbContext>());
         }
 
         public List<Product> GetAllProducts()
         {
-            var data = _dataAccess.ReadData<Dictionary<string, List<Product>>>();
-            return data?[_dataKey] ?? new List<Product>();
+            return _context.Products.ToList();
         }
 
-        public Product? GetProductById(int id)
+        public Product GetProductById(int id)
         {
-            return GetAllProducts().FirstOrDefault(p => p.ProductId == id);
+            return _context.Products.FirstOrDefault(p => p.ProductId == id);
         }
 
         public Product AddProduct(Product newProduct)
         {
-            var products = GetAllProducts();
-            newProduct.ProductId = products.Any() ? products.Max(p => p.ProductId) + 1 : 1;
-            products.Add(newProduct);
-
-            SaveProducts(products);
+            _context.Products.Add(newProduct);
+            _context.SaveChanges();
             return newProduct;
         }
 
         public bool UpdateProduct(int id, Product updatedProduct)
         {
-            var products = GetAllProducts();
-            var existingProduct = products.FirstOrDefault(p => p.ProductId == id);
+            var existingProduct = _context.Products.FirstOrDefault(p => p.ProductId == id);
             if (existingProduct == null)
                 return false;
 
             existingProduct.Name = updatedProduct.Name;
-            existingProduct.Category = updatedProduct.Category;
             existingProduct.Price = updatedProduct.Price;
-            existingProduct.Stock = updatedProduct.Stock;
 
-            SaveProducts(products);
+            _context.SaveChanges();
             return true;
         }
 
         public bool DeleteProduct(int id)
         {
-            var products = GetAllProducts();
-            var productToRemove = products.FirstOrDefault(p => p.ProductId == id);
+            var productToRemove = _context.Products.FirstOrDefault(p => p.ProductId == id);
             if (productToRemove == null)
                 return false;
 
-            products.Remove(productToRemove);
-            SaveProducts(products);
+            _context.Products.Remove(productToRemove);
+            _context.SaveChanges();
             return true;
-        }
-
-        private void SaveProducts(List<Product> products)
-        {
-            var data = _dataAccess.ReadData<Dictionary<string, object>>() ?? new Dictionary<string, object>();
-            data[_dataKey] = products;
-            _dataAccess.WriteData(data);
         }
     }
 }

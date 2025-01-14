@@ -1,43 +1,40 @@
 using EfCoreTest.DataAccess;
 using EfCoreTest.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EfCoreTest.Services
 {
     public class OrderService
     {
-        private readonly JsonDataAccess _dataAccess;
-        private readonly string _dataKey = "Orders";
+        private readonly AppDbContext _context;
 
-        public OrderService(JsonDataAccess dataAccess)
+        public OrderService()
         {
-            _dataAccess = dataAccess;
+            _context = new AppDbContext(new DbContextOptions<AppDbContext>());
         }
 
         public List<Order> GetAllOrders()
         {
-            var data = _dataAccess.ReadData<Dictionary<string, List<Order>>>();
-            return data?[_dataKey] ?? new List<Order>();
+            return _context.Orders.ToList();
         }
 
-        public Order? GetOrderById(int id)
+        public Order GetOrderById(int id)
         {
-            return GetAllOrders().FirstOrDefault(o => o.OrderId == id);
+            return _context.Orders.FirstOrDefault(o => o.OrderId == id);
         }
 
         public Order AddOrder(Order newOrder)
         {
-            var orders = GetAllOrders();
-            newOrder.OrderId = orders.Any() ? orders.Max(o => o.OrderId) + 1 : 1;
-            orders.Add(newOrder);
-
-            SaveOrders(orders);
+            _context.Orders.Add(newOrder);
+            _context.SaveChanges();
             return newOrder;
         }
 
         public bool UpdateOrder(int id, Order updatedOrder)
         {
-            var orders = GetAllOrders();
-            var existingOrder = orders.FirstOrDefault(o => o.OrderId == id);
+            var existingOrder = _context.Orders.FirstOrDefault(o => o.OrderId == id);
             if (existingOrder == null)
                 return false;
 
@@ -46,27 +43,19 @@ namespace EfCoreTest.Services
             existingOrder.TotalAmount = updatedOrder.TotalAmount;
             existingOrder.Status = updatedOrder.Status;
 
-            SaveOrders(orders);
+            _context.SaveChanges();
             return true;
         }
 
         public bool DeleteOrder(int id)
         {
-            var orders = GetAllOrders();
-            var orderToRemove = orders.FirstOrDefault(o => o.OrderId == id);
+            var orderToRemove = _context.Orders.FirstOrDefault(o => o.OrderId == id);
             if (orderToRemove == null)
                 return false;
 
-            orders.Remove(orderToRemove);
-            SaveOrders(orders);
+            _context.Orders.Remove(orderToRemove);
+            _context.SaveChanges();
             return true;
-        }
-
-        private void SaveOrders(List<Order> orders)
-        {
-            var data = _dataAccess.ReadData<Dictionary<string, object>>() ?? new Dictionary<string, object>();
-            data[_dataKey] = orders;
-            _dataAccess.WriteData(data);
         }
     }
 }

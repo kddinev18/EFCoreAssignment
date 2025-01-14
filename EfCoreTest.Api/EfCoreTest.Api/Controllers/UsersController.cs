@@ -5,14 +5,15 @@ using Microsoft.AspNetCore.Mvc;
 namespace EfCoreTest.Api.Controllers
 {
     [ApiController]
-    [Route("api/users")]
+    [Route("[controller]/[action]")]
+
     public class UsersController : ControllerBase
     {
         private readonly UserService _userService;
 
-        public UsersController(UserService userService)
+        public UsersController()
         {
-            _userService = userService;
+            _userService = new UserService();
         }
 
         [HttpGet]
@@ -22,8 +23,8 @@ namespace EfCoreTest.Api.Controllers
             return Ok(users);
         }
 
-        [HttpGet("{id:int}")]
-        public IActionResult GetById(int id)
+        [HttpGet]
+        public IActionResult GetById([FromQuery]int id)
         {
             var user = _userService.GetUserById(id);
             if (user == null)
@@ -33,14 +34,14 @@ namespace EfCoreTest.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(User newUser)
+        public IActionResult Create([FromBody]User newUser)
         {
             var createdUser = _userService.AddUser(newUser);
             return CreatedAtAction(nameof(GetById), new { id = createdUser.UserId }, createdUser);
         }
 
-        [HttpPut("{id:int}")]
-        public IActionResult Update(int id, User updatedUser)
+        [HttpPut]
+        public IActionResult Update([FromQuery]int id, [FromBody]User updatedUser)
         {
             var result = _userService.UpdateUser(id, updatedUser);
             if (!result)
@@ -49,8 +50,8 @@ namespace EfCoreTest.Api.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id:int}")]
-        public IActionResult Delete(int id)
+        [HttpDelete]
+        public IActionResult Delete([FromQuery]int id)
         {
             var result = _userService.DeleteUser(id);
             if (!result)
